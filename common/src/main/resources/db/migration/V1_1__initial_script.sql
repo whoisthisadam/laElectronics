@@ -21,13 +21,12 @@ create table if not exists users
     password          varchar(100),
     first_name        varchar(20)  default 'DEFAULT_NAME'::character varying      not null,
     last_name         varchar(30)  default 'DEFAULT_LAST_NAME'::character varying not null,
-    address           varchar(100) default '1 Main str, NYC'::character varying   not null,
     mobile_phone      varchar(15)                                                 not null,
     creation_date     timestamp(6) default CURRENT_TIMESTAMP(6)                   not null,
     modification_date timestamp(6) default CURRENT_TIMESTAMP(6),
     is_deleted        boolean      default false                                  not null,
     email             varchar(100)                                                not null,
-    disount_id        bigint
+    discount_id        bigint
         constraint users_discount_id_fk
             references discount
             on update cascade on delete cascade
