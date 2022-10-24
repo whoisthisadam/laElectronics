@@ -8,6 +8,5 @@ public class DeSoccerApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(DeSoccerApplication.class, args);
-        System.out.println("HELLO SPRING!");
     }
 }
