@@ -3,6 +3,7 @@ package com.kasperovich.models;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotBlank;
@@ -16,11 +17,9 @@ import javax.validation.constraints.Size;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Credentials {
 
-    @NotBlank
     @Size(min = 3, max = 100)
     String login;
 
-    @NotBlank
     @Size(min = 3, max = 100)
     String password;
 

@@ -3,6 +3,7 @@ package com.kasperovich.models;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
+import net.bytebuddy.utility.nullability.MaybeNull;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -64,5 +65,9 @@ public class User {
 //
 //    @ManyToOne
 //    @JoinColumn(name = "address_id")
+
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    Role role;
 
 }
