@@ -2,6 +2,7 @@ package com.kasperovich.models;
 
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
@@ -10,6 +11,9 @@ import java.util.Set;
 
 @Entity
 @Data
+@EqualsAndHashCode(exclude = {
+        "users"
+})
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "roles")
 public class Role {

@@ -1,9 +1,11 @@
 package com.kasperovich.models;
 
+
+
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldDefaults;
-import net.bytebuddy.utility.nullability.MaybeNull;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -12,6 +14,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Data
+
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "users")
 public class User {

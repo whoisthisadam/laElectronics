@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8070
 spring:
   flyway:
     enabled: true
@@ -13,11 +13,30 @@ spring:
     out-of-order: true
     ignore-migration-patterns: '*:ignored'
     schemas: boots
+
   datasource:
-    hikari:
-      jdbc-url: "jdbc:postgresql://localhost:5432/desoccer"
-      maximum-pool-size: 10
-      driver-class-name: org.postgresql.Driver
+    driver-class-name: org.postgresql.Driver
     username: postgres
     password: root
     url: "jdbc:postgresql://localhost:5432/desoccer"
+    dbcp2:
+      default-schema: boots
+
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database: postgresql
+    generate-ddl: true
+    defer-datasource-initialization: true
+
+  sql:
+    init:
+      platform: postgres
+      mode: always
+      continue-on-error: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
