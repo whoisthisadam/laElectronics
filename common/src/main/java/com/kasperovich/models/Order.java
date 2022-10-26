@@ -11,7 +11,9 @@ import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Data
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = {
+        "user","products"
+})
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "order_details")
@@ -29,7 +31,8 @@ public class Order {
     @Size(min=0)
     Long total;
 
-    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne
+    @JoinColumn(name = "payment_id")
     Payment payment;
 
     @Embedded
