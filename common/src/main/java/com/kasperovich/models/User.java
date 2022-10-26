@@ -63,7 +63,7 @@ public class User {
 
     @ManyToOne
     @JoinColumn(name = "discount_id")
-    Discount discount;
+    Discount userDiscount;
 //
 //
 //

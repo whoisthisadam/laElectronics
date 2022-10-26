@@ -34,6 +34,9 @@ public class Discount {
     })
     Edit editData;
 
-    @OneToMany(mappedBy = "discount", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "userDiscount", fetch = FetchType.EAGER)
     Set<User>users;
+
+    @OneToMany(mappedBy = "productDiscount", fetch = FetchType.EAGER)
+    Set<Product>products;
 }

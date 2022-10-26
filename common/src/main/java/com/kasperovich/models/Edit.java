@@ -4,7 +4,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.Embeddable;
-import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -16,7 +15,6 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Edit {
 
-    @NotBlank
     Timestamp creationDate=new Timestamp(new Date().getTime());
 
     Timestamp modificationDate;
