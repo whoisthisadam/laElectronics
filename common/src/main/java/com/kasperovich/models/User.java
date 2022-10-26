@@ -65,11 +65,12 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "discount_id")
     Discount userDiscount;
-//
-//
-//
-//    @ManyToOne
-//    @JoinColumn(name = "address_id")
+
+
+
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    Address address;
 
     @ManyToOne
     @JoinColumn(name = "role_id")
