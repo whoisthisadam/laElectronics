@@ -4,6 +4,7 @@ package com.kasperovich.models;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Data
@@ -33,5 +34,9 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "discount_id")
     Discount productDiscount;
+
+    @ManyToMany
+    @JoinTable(name = "l_orders_products")
+    Set<Order> orders;
 
 }

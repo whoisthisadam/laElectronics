@@ -8,6 +8,7 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Data
 @EqualsAndHashCode
@@ -28,8 +29,8 @@ public class Order {
     @Size(min=0)
     Long total;
 
-//    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-//    Payment payment;
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    Payment payment;
 
     @Embedded
     @AttributeOverrides({
@@ -41,6 +42,9 @@ public class Order {
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     OrderStatus orderStatus;
+
+    @ManyToMany(mappedBy = "orders", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    Set<Product>products;
 
 
 
