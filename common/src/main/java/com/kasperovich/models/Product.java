@@ -36,7 +36,10 @@ public class Product {
     Discount productDiscount;
 
     @ManyToMany
-    @JoinTable(name = "l_orders_products")
+    @JoinTable(name = "l_orders_products",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
     Set<Order> orders;
 
 }
