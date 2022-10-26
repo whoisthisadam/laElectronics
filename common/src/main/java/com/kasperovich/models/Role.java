@@ -1,5 +1,6 @@
 package com.kasperovich.models;
 
+import com.kasperovich.enums.Roles;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,11 +21,12 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
-    private Long id;
+    Long id;
 
     @Column
     @Size(max = 40)
-    String name;
+    @Enumerated(EnumType.STRING)
+    Roles name;
 
     @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
     Set<User>users;
