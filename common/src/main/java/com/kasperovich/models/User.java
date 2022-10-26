@@ -61,8 +61,9 @@ public class User {
     @Size(max=100)
     String email;
 
-//    @ManyToOne
-//    @JoinColumn(name = "discount_id")
+    @ManyToOne
+    @JoinColumn(name = "discount_id")
+    Discount discount;
 //
 //
 //

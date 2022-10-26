@@ -9,7 +9,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication(scanBasePackages = "com.kasperovich")
 @EnableSwagger2
 public class DeSoccerApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(DeSoccerApplication.class, args);
     }
