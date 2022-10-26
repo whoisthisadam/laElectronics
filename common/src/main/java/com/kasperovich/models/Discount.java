@@ -11,7 +11,9 @@ import java.util.Set;
 
 @Data
 @Entity
-@EqualsAndHashCode(exclude = "users")
+@EqualsAndHashCode(exclude = {
+        "users", "products"
+})
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "discount")
 public class Discount {
