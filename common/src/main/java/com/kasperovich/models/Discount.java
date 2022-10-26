@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Data
 @Entity
-//@EqualsAndHashCode(c)
+@EqualsAndHashCode(exclude = "users")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "discount")
 public class Discount {
