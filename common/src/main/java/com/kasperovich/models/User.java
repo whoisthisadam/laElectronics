@@ -11,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Entity
 @Data
@@ -73,5 +74,8 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "role_id")
     Role role;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    Set<Order>orders;
 
 }
