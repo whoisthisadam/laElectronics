@@ -33,7 +33,7 @@ public class RolesController {
         List<RoleResponse>roleResponseList=roleRepository.findAll()
                 .stream()
                 .map(x->{
-            return new RoleResponse(x.getId(), x.getName(), Optional.of
+            return new RoleResponse(x.getId(), x.getName().toString(), Optional.of
                     (x.getUsers().stream().map(User::getId).collect(Collectors.toSet())).orElse(null));
         }).collect(Collectors.toList());
         return ResponseEntity.ok(roleResponseList);
