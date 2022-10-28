@@ -1,5 +1,6 @@
 package com.kasperovich.controller.responses;
 
+import com.kasperovich.models.User;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,6 +17,6 @@ public class RoleResponse {
 
     String name;
 
-    Set<Long> userIds;
+    Set<User> userIds;
 
 }

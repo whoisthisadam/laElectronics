@@ -1,6 +1,8 @@
 package com.kasperovich.controller;
 
 import com.kasperovich.controller.responses.RoleResponse;
+import com.kasperovich.mapper.RoleListMapper;
+import com.kasperovich.mapper.RoleMapper;
 import com.kasperovich.models.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,14 +30,13 @@ public class RolesController {
 
     private final RoleRepository roleRepository;
 
+    private final RoleMapper roleMapper;
+
+    private final RoleListMapper roleListMapper;
+
     @GetMapping
     public ResponseEntity<List<RoleResponse>>findAll(){
-        List<RoleResponse>roleResponseList=roleRepository.findAll()
-                .stream()
-                .map(x->{
-            return new RoleResponse(x.getId(), x.getName().toString(), Optional.of
-                    (x.getUsers().stream().map(User::getId).collect(Collectors.toSet())).orElse(null));
-        }).collect(Collectors.toList());
+        List<RoleResponse>roleResponseList=roleListMapper.toResponsesList(roleRepository.findAll());
         return ResponseEntity.ok(roleResponseList);
     }
 }
