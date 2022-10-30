@@ -1,15 +1,15 @@
 package com.kasperovich.mapper;
 
-import com.kasperovich.controller.requests.RoleRequest;
-import com.kasperovich.controller.responses.RoleResponse;
+import com.kasperovich.dto.roles.RoleCreateDto;
+import com.kasperovich.dto.roles.RoleGetDto;
 import com.kasperovich.models.Role;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface RoleMapper {
 
-    public RoleResponse toResponse(Role role);
+    public RoleGetDto toResponse(Role role);
 
-    public Role toEntity(RoleRequest roleRequest);
+    public Role toEntity(RoleCreateDto roleRequest);
 
 }

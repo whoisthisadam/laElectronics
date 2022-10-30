@@ -1,5 +1,6 @@
 package com.kasperovich.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kasperovich.enums.Roles;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -29,6 +30,7 @@ public class Role {
     Roles name;
 
     @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
+    @JsonIgnore
     Set<User>users;
 
 }

@@ -1,7 +1,7 @@
 package com.kasperovich.mapper;
 
-import com.kasperovich.controller.requests.RoleRequest;
-import com.kasperovich.controller.responses.RoleResponse;
+import com.kasperovich.dto.roles.RoleCreateDto;
+import com.kasperovich.dto.roles.RoleGetDto;
 import com.kasperovich.models.Role;
 import org.mapstruct.Mapper;
 
@@ -10,8 +10,8 @@ import java.util.List;
 @Mapper(componentModel = "spring", uses = RoleMapper.class)
 public interface RoleListMapper {
 
-    public List<Role>toEntityList(List<RoleRequest> roleRequestList);
+    public List<Role>toEntityList(List<RoleCreateDto> roleRequestList);
 
-    public List<RoleResponse>toResponsesList(List<Role>roles);
+    public List<RoleGetDto>toResponsesList(List<Role>roleList);
 
 }

@@ -1,4 +1,4 @@
-package com.kasperovich.controller.responses;
+package com.kasperovich.dto.roles;
 
 import com.kasperovich.models.User;
 import lombok.AccessLevel;
@@ -11,7 +11,7 @@ import java.util.Set;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
-public class RoleResponse {
+public class RoleGetDto {
 
     Long id;
 
