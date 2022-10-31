@@ -27,7 +27,7 @@ public class Discount {
 
     @Column(name = "discount_percent")
     @Size(min = 0, max = 100)
-    Integer discountPercent;
+    Double discountPercent;
 
     @Embedded
     @AttributeOverrides({

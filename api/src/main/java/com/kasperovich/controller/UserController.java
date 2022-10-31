@@ -52,10 +52,11 @@ public class UserController {
 
     @PostMapping
     @ApiOperation(value = "Create a new user")
-    public ResponseEntity<Map<String, User>>createUser(@Valid @RequestBody UserCreateDto userCreateDto){
-        return new ResponseEntity<>(Collections.singletonMap("New user:",
-                userService.createUser(userCreateDto)), HttpStatus.CREATED);
+    public ResponseEntity<Map<String, User>>createUser(@Valid @RequestBody UserCreateDto userCreateDto) {
+        User user = userMapper.toEntity(userCreateDto);
+        user.setRole(roleRepository.findById(userCreateDto.getRoleId()).orElse(null));
+        return new ResponseEntity<>(Collections.singletonMap("New user:", userService.createUser(user)),
+                HttpStatus.CREATED);
     }
-
 
 }

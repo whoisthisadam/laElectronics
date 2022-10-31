@@ -18,6 +18,8 @@ public class AddressCreateDto {
 
     String province;
 
+    String postCode;
+
     String country;
 
 }
