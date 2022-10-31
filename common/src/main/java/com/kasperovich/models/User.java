@@ -50,18 +50,18 @@ public class User {
     @Size(max=15)
     String mobilePhone;
 
-//    @Embedded
-//    @AttributeOverrides({
-//            @AttributeOverride(name="creationDate", column = @Column(name = "creation_date")),
-//            @AttributeOverride(name = "modificationDate", column = @Column(name = "modification_date"))
-//    })
-//    Edit editData;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name="creationDate", column = @Column(name = "creation_date")),
+            @AttributeOverride(name = "modificationDate", column = @Column(name = "modification_date"))
+    })
+    Edit editData=new Edit(new Timestamp(new Date().getTime()), null);
 
-    @Column(name = "creation_date")
-    Timestamp creationDate=new Timestamp(new Date().getTime());
-
-    @Column(name = "modification_date")
-    Timestamp modificationDate;
+//    @Column(name = "creation_date")
+//    Timestamp creationDate=new Timestamp(new Date().getTime());
+//
+//    @Column(name = "modification_date")
+//    Timestamp modificationDate;
 
     @Column(name = "is_deleted")
     Boolean isDeleted=false;

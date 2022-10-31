@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.sql.Timestamp;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @Validated
@@ -47,10 +49,10 @@ public class UserController {
 
     @PostMapping
     @ApiOperation(value = "Create a new user")
-    public ResponseEntity<User>createUser(@Valid @RequestBody UserCreateDto userCreateDto){
+    public ResponseEntity<Map<String, User>>createUser(@Valid @RequestBody UserCreateDto userCreateDto){
         User user=userMapper.toEntity(userCreateDto);
         user.setRole(roleRepository.findById(userCreateDto.getRoleId()).get());
-        return new ResponseEntity<>(userRepository.save(user), HttpStatus.CREATED);
+        return new ResponseEntity<>(Collections.singletonMap("New user:", userRepository.save(user)), HttpStatus.CREATED);
     }
 
 
