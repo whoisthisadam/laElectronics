@@ -9,6 +9,7 @@ import com.kasperovich.models.Edit;
 import com.kasperovich.models.User;
 import com.kasperovich.repository.RoleRepository;
 import com.kasperovich.repository.UserRepository;
+import com.kasperovich.service.user.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +42,8 @@ public class UserController {
 
     private final UserMapper userMapper;
 
+    private final UserService userService;
+
     @GetMapping
     @ApiOperation(value = "Return all users")
     public ResponseEntity<List<UserGetDto>>findAll(){
@@ -50,9 +53,8 @@ public class UserController {
     @PostMapping
     @ApiOperation(value = "Create a new user")
     public ResponseEntity<Map<String, User>>createUser(@Valid @RequestBody UserCreateDto userCreateDto){
-        User user=userMapper.toEntity(userCreateDto);
-        user.setRole(roleRepository.findById(userCreateDto.getRoleId()).get());
-        return new ResponseEntity<>(Collections.singletonMap("New user:", userRepository.save(user)), HttpStatus.CREATED);
+        return new ResponseEntity<>(Collections.singletonMap("New user:",
+                userService.createUser(userCreateDto)), HttpStatus.CREATED);
     }
 
 
