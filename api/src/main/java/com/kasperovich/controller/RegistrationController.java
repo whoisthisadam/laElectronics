@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -60,7 +61,8 @@ public class RegistrationController {
                             content = @Content)
             })
     @PostMapping
-    public ResponseEntity<Map<String, UserGetDto>> createUser(@Valid @RequestBody UserCreateDto userCreateDto) {
+    @Transactional
+    public ResponseEntity<Map<String, UserGetDto>> addUser(@Valid @RequestBody UserCreateDto userCreateDto) {
         User user = userMapper.toEntity(userCreateDto);
         if(user.getCredentials()==null){
             user.setRole(roleRepository.findAllByName(Roles.USER_NOT_AUTHORIZED));
