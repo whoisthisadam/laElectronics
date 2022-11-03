@@ -64,12 +64,6 @@ public class RegistrationController {
     @Transactional
     public ResponseEntity<Map<String, UserGetDto>> addUser(@Valid @RequestBody UserCreateDto userCreateDto) {
         User user = userMapper.toEntity(userCreateDto);
-        if(user.getCredentials()==null){
-            user.setRole(roleRepository.findAllByName(Roles.USER_NOT_AUTHORIZED));
-        }
-        else{
-            user.setRole(roleRepository.findAllByName(Roles.USER_AUTHORIZED));
-        }
         userService.createUser(user);
         return new ResponseEntity<>(Collections.singletonMap("New user:", userMapper.toDto(user)),
                 HttpStatus.CREATED);

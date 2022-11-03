@@ -1,6 +1,7 @@
 package com.kasperovich.service.user;
 
 import com.kasperovich.enums.Discounts;
+import com.kasperovich.enums.Roles;
 import com.kasperovich.models.User;
 import com.kasperovich.repository.AddressRepository;
 import com.kasperovich.repository.DiscountRepository;
@@ -29,6 +30,13 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User createUser(@NotNull User user) {
+
+        if(user.getCredentials()==null){
+            user.setRole(roleRepository.findAllByName(Roles.USER_NOT_AUTHORIZED));
+        }
+        else{
+            user.setRole(roleRepository.findAllByName(Roles.USER_AUTHORIZED));
+        }
 
         if(user.getCredentials()!=null){
             user.setUserDiscount(discountRepository.findDiscountsByName(Discounts.LOGIN_DISCOUNT));
