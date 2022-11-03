@@ -17,6 +17,4 @@ public class RoleGetDto {
 
     String name;
 
-    Set<User> userIds;
-
 }

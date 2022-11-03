@@ -3,9 +3,7 @@ package com.kasperovich.models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
@@ -17,7 +15,8 @@ import java.util.Date;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(exclude = "orders")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "users")

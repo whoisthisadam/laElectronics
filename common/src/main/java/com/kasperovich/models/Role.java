@@ -2,9 +2,7 @@ package com.kasperovich.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kasperovich.enums.Roles;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
@@ -12,7 +10,8 @@ import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(exclude = {
         "users"
 })

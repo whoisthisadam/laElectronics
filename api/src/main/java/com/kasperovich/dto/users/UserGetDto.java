@@ -21,11 +21,4 @@ public class UserGetDto {
 
     String email;
 
-    Roles roleName;
-
-    Edit editData;
-
-//    Address address;
-
-
 }

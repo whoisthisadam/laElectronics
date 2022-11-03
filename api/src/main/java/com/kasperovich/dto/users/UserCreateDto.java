@@ -27,8 +27,6 @@ public class UserCreateDto {
     @NotBlank
     String mobilePhone;
 
-    Long roleId;
-
     String email;
 
     AddressCreateDto address;

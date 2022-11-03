@@ -1,5 +1,6 @@
 package com.kasperovich.models;
 
+import com.kasperovich.enums.Discounts;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,7 +24,8 @@ public class Discount {
     Long id;
 
     @Column(name = "name")
-    String name;
+    @Enumerated(EnumType.STRING)
+    Discounts name;
 
     @Column(name = "discount_percent")
     @Size(min = 0, max = 100)

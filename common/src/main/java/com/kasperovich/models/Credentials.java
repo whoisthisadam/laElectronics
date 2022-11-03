@@ -17,10 +17,8 @@ import javax.validation.constraints.Size;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Credentials {
 
-    @Size(min = 3, max = 100)
     String login;
 
-    @Size(min = 3, max = 100)
     String password;
 
 }
