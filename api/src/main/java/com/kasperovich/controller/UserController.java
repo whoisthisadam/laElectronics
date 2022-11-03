@@ -1,37 +1,31 @@
 package com.kasperovich.controller;
 
-import com.kasperovich.dto.users.UserCreateDto;
 import com.kasperovich.dto.users.UserGetDto;
 import com.kasperovich.mapper.UserListMapper;
 import com.kasperovich.mapper.UserMapper;
-import com.kasperovich.models.Credentials;
-import com.kasperovich.models.Edit;
-import com.kasperovich.models.User;
 import com.kasperovich.repository.RoleRepository;
 import com.kasperovich.repository.UserRepository;
 import com.kasperovich.service.user.UserService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.sql.Timestamp;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @Validated
 @Slf4j
 @RequestMapping("data/users")
 @RequiredArgsConstructor
-@Api(tags = {"Users"})
+@Tag(name = "Users")
 public class UserController {
 
     private final UserRepository userRepository;
@@ -44,19 +38,30 @@ public class UserController {
 
     private final UserService userService;
 
+    @Operation(
+    summary = "Gets all users",
+    responses = {
+        @ApiResponse(
+                responseCode = "200",
+                description = "Found the users",
+                content =
+                @Content(
+                        mediaType = "application/json",
+                        array = @ArraySchema(schema = @Schema(implementation =UserGetDto.class))))
+    }
+            //    ,parameters = {
+//        @Parameter(
+//                in = ParameterIn.HEADER,
+//                name = "X-Auth-Token",
+//                required = true,
+//                description = "JWT Token, can be generated in auth controller /auth")
+//    })
+    )
     @GetMapping
-    @ApiOperation(value = "Return all users")
     public ResponseEntity<List<UserGetDto>>findAll(){
         return ResponseEntity.ok(userListMapper.toDtoList(userRepository.findAll()));
     }
 
-    @PostMapping
-    @ApiOperation(value = "Create a new user")
-    public ResponseEntity<Map<String, User>>createUser(@Valid @RequestBody UserCreateDto userCreateDto) {
-        User user = userMapper.toEntity(userCreateDto);
-        user.setRole(roleRepository.findById(userCreateDto.getRoleId()).orElse(null));
-        return new ResponseEntity<>(Collections.singletonMap("New user:", userService.createUser(user)),
-                HttpStatus.CREATED);
-    }
+
 
 }

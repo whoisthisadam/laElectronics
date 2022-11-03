@@ -2,8 +2,14 @@ package com.kasperovich.controller;
 
 import com.kasperovich.dto.roles.RoleGetDto;
 import com.kasperovich.mapper.RoleListMapper;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +26,7 @@ import java.util.List;
 @Slf4j
 @RequestMapping("data/roles")
 @RequiredArgsConstructor
-@Api(tags = {"Roles"})
+@Tag(name = "Roles")
 public class RolesController {
 
 
@@ -29,7 +35,26 @@ public class RolesController {
     private final RoleListMapper roleListMapper;
 
     @GetMapping
-    @ApiOperation(value = "Finding all roles")
+    @Operation(
+            summary = "Gets all roles",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Found the roles",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            array = @ArraySchema(schema = @Schema(implementation = RoleGetDto.class)))
+                            })
+            }
+//            ,parameters = {
+//                    @Parameter(
+//                            in = ParameterIn.HEADER,
+//                            name = "X-Auth-Token",
+//                            required = true,
+//                            description = "JWT Token, can be generated in auth controller /auth")
+//            })
+    )
     public ResponseEntity<List<RoleGetDto>>findAll(){
         List<RoleGetDto>roleResponseList=roleListMapper.toResponsesList(roleRepository.findAll());
         return ResponseEntity.ok(roleResponseList);
