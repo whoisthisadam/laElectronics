@@ -1,22 +1,17 @@
 package com.kasperovich.security;
 
-import com.kasperovich.models.Role;
 import com.kasperovich.models.User;
 import com.kasperovich.repository.RoleRepository;
 import com.kasperovich.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.Lifecycle;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 @Configuration
 @RequiredArgsConstructor
@@ -28,7 +23,7 @@ public class UserSecurityService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if(isValid(username)){
+        if(isEmailValid(username)){
             try {
                 /*Find user in DB*/
                 Optional<User> searchResult = userRepository.findUserByEmail(username);
@@ -71,7 +66,7 @@ public class UserSecurityService implements UserDetailsService {
     }
 
 
-    public static boolean isValid(String email)
+    public static boolean isEmailValid(String email)
     {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
                 "[a-zA-Z0-9_+&*-]+)*@" +
