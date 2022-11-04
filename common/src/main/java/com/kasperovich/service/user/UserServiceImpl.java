@@ -8,6 +8,7 @@ import com.kasperovich.repository.AddressRepository;
 import com.kasperovich.repository.DiscountRepository;
 import com.kasperovich.repository.RoleRepository;
 import com.kasperovich.repository.UserRepository;
+import com.kasperovich.service.role.RoleService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -32,14 +33,17 @@ public class UserServiceImpl implements UserService{
     @Autowired
     RoleRepository roleRepository;
 
+    @Autowired
+    RoleService roleService;
+
     @Override
     public User createUser(@NotNull User user) {
 
         if(user.getCredentials()==null){
-            user.setRole(roleRepository.findAllByName(Roles.ROLE_USER_NOT_AUTHORIZED));
+            user.setRole(roleService.findRoleByName(Roles.ROLE_USER_NOT_AUTHORIZED));
         }
         else{
-            user.setRole(roleRepository.findAllByName(Roles.ROLE_USER_AUTHORIZED));
+            user.setRole(roleService.findRoleByName(Roles.ROLE_USER_AUTHORIZED));
         }
 
         if(user.getCredentials()!=null){

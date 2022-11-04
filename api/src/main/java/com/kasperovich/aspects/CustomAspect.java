@@ -15,10 +15,10 @@ import org.springframework.stereotype.Component;
 public class CustomAspect {
 
     @Pointcut("execution(* com.kasperovich.service.*.*.*(..))")
-    public void aroundRepositoryPointcut() {
+    public void aroundServicePointcut() {
     }
 
-    @Around("aroundRepositoryPointcut()")
+    @Around("aroundServicePointcut()")
     public Object logAroundMethods(ProceedingJoinPoint joinPoint) throws Throwable {
 
         System.out.println(joinPoint.getArgs().length);
