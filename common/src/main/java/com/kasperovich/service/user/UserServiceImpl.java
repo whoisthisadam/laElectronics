@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -61,6 +62,6 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public List<User> findAll() {
-        return userRepository.findAll();
+        return userRepository.findAll().stream().filter(x-> !x.getIsDeleted()).collect(Collectors.toList());
     }
 }
