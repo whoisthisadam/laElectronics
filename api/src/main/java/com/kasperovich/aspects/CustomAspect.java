@@ -1,6 +1,8 @@
 package com.kasperovich.aspects;
 
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -9,21 +11,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Aspect
+@Log4j2
 public class CustomAspect {
 
-    private static final Logger log = Logger.getLogger(CustomAspect.class);
-
-//    @Before("aroundRepositoryPointcut()")
-//    public void logBefore(JoinPoint joinPoint) {
-//        log.info("Method " + joinPoint.getSignature().getName() + " start");
-//    }
-//
-//    @AfterReturning(pointcut = "aroundRepositoryPointcut()")
-//    public void doAccessCheck(JoinPoint joinPoint) {
-//        log.info("Method " + joinPoint.getSignature().getName() + " finished");
-//    }
-
-    @Pointcut("execution(* com.kasperovich.repository.UserRepository.*(..))")
+    @Pointcut("execution(* com.kasperovich.service.*.*.*(..))")
     public void aroundRepositoryPointcut() {
     }
 
@@ -40,3 +31,4 @@ public class CustomAspect {
         return proceed;
     }
 }
+

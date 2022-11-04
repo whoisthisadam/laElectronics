@@ -43,10 +43,9 @@ public class UserServiceImpl implements UserService{
 
         if(user.getCredentials()!=null){
             user.setUserDiscount(discountRepository.findDiscountsByName(Discounts.LOGIN_DISCOUNT));
+            PasswordEncoder encoder=new BCryptPasswordEncoder();
+            user.setCredentials(new Credentials(user.getCredentials().getLogin(), encoder.encode(user.getCredentials().getPassword())));
         }
-
-        PasswordEncoder encoder=new BCryptPasswordEncoder();
-        user.setCredentials(new Credentials(user.getCredentials().getLogin(), encoder.encode(user.getCredentials().getPassword())));
 
 
         addressRepository.save(user.getAddress());
