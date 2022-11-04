@@ -2,8 +2,7 @@ package com.kasperovich.controller;
 
 import com.kasperovich.dto.users.UserCreateDto;
 import com.kasperovich.dto.users.UserGetDto;
-import com.kasperovich.enums.Roles;
-import com.kasperovich.mapper.UserMapper;
+import com.kasperovich.mapping.mappers.UserMapper;
 import com.kasperovich.models.User;
 import com.kasperovich.repository.RoleRepository;
 import com.kasperovich.service.user.UserService;

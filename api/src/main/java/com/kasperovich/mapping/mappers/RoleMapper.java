@@ -1,4 +1,4 @@
-package com.kasperovich.mapper;
+package com.kasperovich.mapping.mappers;
 
 import com.kasperovich.dto.roles.RoleCreateDto;
 import com.kasperovich.dto.roles.RoleGetDto;

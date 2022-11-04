@@ -1,7 +1,7 @@
 package com.kasperovich.controller;
 
 import com.kasperovich.dto.roles.RoleGetDto;
-import com.kasperovich.mapper.RoleListMapper;
+import com.kasperovich.mapping.mappers.RoleListMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;

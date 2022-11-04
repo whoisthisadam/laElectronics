@@ -1,4 +1,4 @@
-package com.kasperovich.mapper;
+package com.kasperovich.mapping.mappers;
 
 import com.kasperovich.dto.address.AddressCreateDto;
 import com.kasperovich.models.Address;
@@ -8,5 +8,7 @@ import org.mapstruct.Mapper;
 public interface AddressMapper {
 
     public Address toEntity(AddressCreateDto dto);
+
+    public  AddressCreateDto toDto(Address address);
 
 }

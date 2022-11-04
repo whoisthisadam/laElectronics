@@ -1,4 +1,4 @@
-package com.kasperovich.mapper;
+package com.kasperovich.mapping.mappers;
 
 import com.kasperovich.dto.users.UserCreateDto;
 import com.kasperovich.dto.users.UserGetDto;

@@ -1,10 +1,11 @@
 package com.kasperovich.controller;
 
+import com.kasperovich.dto.users.UserCreateDto;
 import com.kasperovich.dto.users.UserGetDto;
-import com.kasperovich.mapper.UserListMapper;
-import com.kasperovich.mapper.UserMapper;
-import com.kasperovich.repository.RoleRepository;
-import com.kasperovich.repository.UserRepository;
+import com.kasperovich.mapping.converters.user.UserUpdateConverter;
+import com.kasperovich.mapping.mappers.UserListMapper;
+import com.kasperovich.mapping.mappers.UserMapper;
+import com.kasperovich.models.User;
 import com.kasperovich.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -16,12 +17,15 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @Validated
@@ -34,6 +38,10 @@ public class UserController {
     private final UserListMapper userListMapper;
 
     private final UserService userService;
+
+    private final UserMapper userMapper;
+
+    private final UserUpdateConverter userUpdateConverter;
 
     @Operation(
     summary = "Gets all users(only for Admin)",
@@ -56,6 +64,27 @@ public class UserController {
     @GetMapping
     public ResponseEntity<List<UserGetDto>>findAll(){
         return ResponseEntity.ok(userListMapper.toDtoList(userService.findAll()));
+    }
+
+    @Operation(
+            summary = "Update user",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "User updated",
+                            content =
+                            @Content(
+                                    mediaType = "application/json",
+                                    array = @ArraySchema(schema = @Schema(implementation =UserGetDto.class))))
+            })
+    @PutMapping
+    public ResponseEntity<Map<String, UserGetDto>>updateUser(@RequestParam String id, @RequestBody UserCreateDto userCreateDto){
+        Long Id=Long.parseLong(id);
+        User user= userUpdateConverter.doConvert(userCreateDto, Id);
+        return new ResponseEntity<>(
+                Collections.singletonMap(
+                        "Updated user:", userMapper.toDto(userService.updateUser(user))), HttpStatus.OK
+        );
     }
 
 
