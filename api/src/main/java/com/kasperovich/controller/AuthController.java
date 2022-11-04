@@ -5,7 +5,6 @@ import com.kasperovich.dto.auth.AuthResponse;
 import com.kasperovich.repository.UserRepository;
 import com.kasperovich.security.UserSecurityService;
 import com.kasperovich.security.jwt.JwtTokenHelper;
-import com.kasperovich.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -13,7 +12,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -60,7 +58,7 @@ public class AuthController {
 
         SecurityContextHolder.getContext().setAuthentication(authenticate);
 
-        if(UserSecurityService.isValid(request.getEmailOrLogin())){
+        if(UserSecurityService.isEmailValid(request.getEmailOrLogin())){
             return ResponseEntity.ok(
                     AuthResponse.builder()
                             .login(userRepository
