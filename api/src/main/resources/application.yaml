@@ -40,3 +40,9 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
 
+---
+
+jwt:
+  secret: qwepuisdhfaksdjflsdfn12321___**
+  expiration: 600000
+

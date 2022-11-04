@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Optional;
 
 public interface RoleRepository extends JpaRepository<Role, Long> {
 

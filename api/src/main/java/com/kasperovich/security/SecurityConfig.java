@@ -1,5 +1,7 @@
-package com.kasperovich.config;
+package com.kasperovich.security;
 
+import com.kasperovich.security.filter.AuthenticationTokenFilter;
+import com.kasperovich.security.jwt.JwtTokenHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +17,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @RequiredArgsConstructor
 @Configuration
@@ -24,29 +28,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userProvider;
 
-//    private final JwtTokenHelper tokenUtils;
+    private final JwtTokenHelper tokenUtils;
 
-//    private final NoOpPasswordEncoder noOpPasswordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-//    @Autowired
-//    public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-//        authenticationManagerBuilder
-//                .userDetailsService(userProvider)
-//                .passwordEncoder(noOpPasswordEncoder);
-//    }
+    @Autowired
+    public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+        authenticationManagerBuilder
+                .userDetailsService(userProvider)
+                .passwordEncoder(passwordEncoder);
+    }
 
-//    @Bean
-//    public AuthenticationTokenFilter authenticationTokenFilterBean(AuthenticationManager authenticationManager) throws Exception {
-//        AuthenticationTokenFilter authenticationTokenFilter = new AuthenticationTokenFilter(tokenUtils, userDetailsService);
-//        authenticationTokenFilter.setAuthenticationManager(authenticationManager);
-//        return authenticationTokenFilter;
-//    }
+    @Bean
+    public AuthenticationTokenFilter authenticationTokenFilterBean(AuthenticationManager authenticationManager) throws Exception {
+        AuthenticationTokenFilter authenticationTokenFilter = new AuthenticationTokenFilter(tokenUtils, userProvider);
+        authenticationTokenFilter.setAuthenticationManager(authenticationManager);
+        return authenticationTokenFilter;
+    }
 
-//    @Bean
-//    @Override
-//    public AuthenticationManager authenticationManagerBean() throws Exception {
-//        return super.authenticationManagerBean();
-//    }
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
@@ -72,9 +76,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated();
 
-        // Custom JWT based authentication
-//        httpSecurity
-//                .addFilterBefore(authenticationTokenFilterBean(authenticationManagerBean()), UsernamePasswordAuthenticationFilter.class);
+//         Custom JWT based authentication
+        httpSecurity
+                .addFilterBefore(authenticationTokenFilterBean(authenticationManagerBean()), UsernamePasswordAuthenticationFilter.class);
     }
 
     //For swagger access only
