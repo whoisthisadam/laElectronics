@@ -9,11 +9,12 @@ import com.kasperovich.repository.DiscountRepository;
 import com.kasperovich.repository.RoleRepository;
 import com.kasperovich.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.validation.constraints.NotNull;
 
 @Service
 @AllArgsConstructor
