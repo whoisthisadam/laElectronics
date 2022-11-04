@@ -8,9 +8,9 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class AuthRequest {
 
-    @Schema(defaultValue = "arinakasperrr", type = "string", description = "User Login")
+    @Schema(defaultValue = "arinakasperrr", type = "string", description = "User Login OR Email")
     @NotBlank
-    private String login;
+    private String emailOrLogin;
 
     @Schema(defaultValue = "arinak2006", type = "string", description = "User password")
     @NotBlank

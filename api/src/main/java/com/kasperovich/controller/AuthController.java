@@ -2,6 +2,8 @@ package com.kasperovich.controller;
 
 import com.kasperovich.dto.auth.AuthRequest;
 import com.kasperovich.dto.auth.AuthResponse;
+import com.kasperovich.repository.UserRepository;
+import com.kasperovich.security.UserSecurityService;
 import com.kasperovich.security.jwt.JwtTokenHelper;
 import com.kasperovich.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,7 +34,10 @@ public class AuthController {
 
     private final UserDetailsService userProvider;
 
-    private final UserService userService;
+    private final UserRepository userRepository;
+
+
+
 
     @Operation(
             summary = "Login user in system",
@@ -51,14 +56,31 @@ public class AuthController {
         Authentication authenticate =
                 authenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(
-                                request.getLogin(), request.getPassword()));
+                                request.getEmailOrLogin(), request.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authenticate);
 
-        return ResponseEntity.ok(
-                AuthResponse.builder()
-                        .username(request.getLogin())
-                        .token(tokenUtils.generateToken(userProvider.loadUserByUsername(request.getLogin())))
-                        .build());
+        if(UserSecurityService.isValid(request.getEmailOrLogin())){
+            return ResponseEntity.ok(
+                    AuthResponse.builder()
+                            .login(userRepository
+                                    .findUserByEmail(request.getEmailOrLogin())
+                                    .orElseThrow(RuntimeException::new)
+                                    .getCredentials().getLogin())
+                            .email(request.getEmailOrLogin())
+                            .token(tokenUtils.generateToken(userProvider.loadUserByUsername(request.getEmailOrLogin())))
+                            .build());
+        }
+        else{
+            return ResponseEntity.ok(
+                    AuthResponse.builder()
+                            .login(request.getEmailOrLogin())
+                            .email(userRepository
+                                    .findUserByCredentialsLogin(request.getEmailOrLogin())
+                                    .orElseThrow(RuntimeException::new)
+                                    .getEmail())
+                            .token(tokenUtils.generateToken(userProvider.loadUserByUsername(request.getEmailOrLogin())))
+                            .build());
+        }
     }
 }

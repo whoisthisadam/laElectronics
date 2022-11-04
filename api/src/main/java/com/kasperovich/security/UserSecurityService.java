@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Configuration
@@ -27,6 +28,27 @@ public class UserSecurityService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        if(isValid(username)){
+            try {
+                /*Find user in DB*/
+                Optional<User> searchResult = userRepository.findUserByEmail(username);
+
+                if (searchResult.isPresent()) {
+                    User user = searchResult.get();
+
+                    /*We are creating Spring Security User object*/
+                    return new org.springframework.security.core.userdetails.User(
+                            user.getEmail(),
+                            user.getCredentials().getPassword(),
+                            AuthorityUtils.commaSeparatedStringToAuthorityList(user.getRole().getName().toString()+",")
+                    );
+                } else {
+                    throw new UsernameNotFoundException(String.format("No user found with email '%s'.", username));
+                }
+            } catch (Exception e) {
+                throw new UsernameNotFoundException("User with this email not found");
+            }
+        }
         try {
             /*Find user in DB*/
             Optional<User> searchResult = userRepository.findUserByCredentialsLogin(username);
@@ -46,5 +68,19 @@ public class UserSecurityService implements UserDetailsService {
         } catch (Exception e) {
             throw new UsernameNotFoundException("User with this login not found");
         }
+    }
+
+
+    public static boolean isValid(String email)
+    {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+
+        Pattern pat = Pattern.compile(emailRegex);
+        if (email == null)
+            return false;
+        return pat.matcher(email).matches();
     }
 }
