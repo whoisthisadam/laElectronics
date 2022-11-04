@@ -31,13 +31,7 @@ import java.util.List;
 @Tag(name = "Users")
 public class UserController {
 
-    private final UserRepository userRepository;
-
     private final UserListMapper userListMapper;
-
-    private final RoleRepository roleRepository;
-
-    private final UserMapper userMapper;
 
     private final UserService userService;
 
@@ -61,7 +55,7 @@ public class UserController {
     @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     @GetMapping
     public ResponseEntity<List<UserGetDto>>findAll(){
-        return ResponseEntity.ok(userListMapper.toDtoList(userRepository.findAll()));
+        return ResponseEntity.ok(userListMapper.toDtoList(userService.findAll()));
     }
 
 

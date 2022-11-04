@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -56,5 +57,10 @@ public class UserServiceImpl implements UserService{
         addressRepository.save(user.getAddress());
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 }
