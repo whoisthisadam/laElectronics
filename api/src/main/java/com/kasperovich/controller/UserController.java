@@ -42,7 +42,7 @@ public class UserController {
     private final UserService userService;
 
     @Operation(
-    summary = "Gets all users",
+    summary = "Gets all users(only for Admin)",
     responses = {
         @ApiResponse(
                 responseCode = "200",
