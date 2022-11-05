@@ -77,7 +77,7 @@ public class UserController {
                                     mediaType = "application/json",
                                     array = @ArraySchema(schema = @Schema(implementation =UserGetDto.class))))
             })
-    @PutMapping
+    @PatchMapping
     public ResponseEntity<Map<String, UserGetDto>>updateUser(@RequestParam String id, @RequestBody UserCreateDto userCreateDto){
         Long Id=Long.parseLong(id);
         User user= userUpdateConverter.doConvert(userCreateDto, Id);

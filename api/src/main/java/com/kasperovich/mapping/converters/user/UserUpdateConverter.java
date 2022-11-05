@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 @Component
@@ -25,28 +26,51 @@ public class UserUpdateConverter implements Converter<UserCreateDto, User> {
         return null;
     }
 
-    public User doConvert(UserCreateDto userCreateDto, Long id){
+    public User doConvert(UserCreateDto userCreateDto, Long id) throws EntityNotFoundException {
         User user=new User();
         user.setId(id);
         user.setCredentials(
-                Optional.ofNullable(userCreateDto.getCredentials()).orElse(userRepository.findById(id).get().getCredentials())
+                Optional.ofNullable(
+                        userCreateDto.getCredentials())
+                        .orElse(userRepository.findById(id)
+                                .orElseThrow(EntityNotFoundException::new).getCredentials()
+                )
         );
         user.setFirstName(
-                Optional.ofNullable(userCreateDto.getFirstName()).orElse(userRepository.findById(id).get().getFirstName())
+                Optional.ofNullable(
+                        userCreateDto.getFirstName())
+                        .orElse(userRepository.findById(id)
+                                .orElseThrow(EntityNotFoundException::new).getFirstName()
+                )
         );
         user.setLastName(
-                Optional.ofNullable(userCreateDto.getLastName()).orElse(userRepository.findById(id).get().getLastName())
+                Optional.ofNullable(
+                        userCreateDto.getLastName())
+                        .orElse(userRepository.findById(id)
+                                .orElseThrow(EntityNotFoundException::new).getLastName()
+                )
         );
         user.setEmail(
-                Optional.ofNullable(userCreateDto.getEmail()).orElse(userRepository.findById(id).get().getEmail())
+                Optional.ofNullable(
+                        userCreateDto.getEmail())
+                        .orElse(userRepository.findById(id)
+                                .orElseThrow(EntityNotFoundException::new).getEmail()
+                )
         );
         user.setMobilePhone(
-                Optional.ofNullable(userCreateDto.getMobilePhone()).orElse(userRepository.findById(id).get().getMobilePhone())
+                Optional.ofNullable(
+                        userCreateDto.getMobilePhone())
+                        .orElse(userRepository.findById(id)
+                                .orElseThrow(EntityNotFoundException::new).getMobilePhone()
+                )
         );
         user.setAddress(
-                Optional.ofNullable(addressMapper.toEntity(userCreateDto.getAddress())).orElse(userRepository.findById(id).get().getAddress())
+                Optional.ofNullable(addressMapper.toEntity(userCreateDto.getAddress()))
+                        .orElse(userRepository.findById(id)
+                                .orElseThrow(EntityNotFoundException::new).getAddress())
         );
-        user.setRole(userRepository.findById(id).get().getRole());
+        user.setRole(userRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new).getRole());
         return user;
     }
 }
