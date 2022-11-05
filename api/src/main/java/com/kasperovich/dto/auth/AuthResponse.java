@@ -1,15 +1,21 @@
 package com.kasperovich.dto.auth;
 
+import com.kasperovich.enums.Roles;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
+import lombok.experimental.FieldDefaults;
 
 @Data
 @Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class AuthResponse {
 
-    private String token;
+    String token;
 
-    private String login;
+    String login;
 
-    private String email;
+    String email;
+
+    Roles roleName;
 }

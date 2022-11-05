@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.persistence.EntityNotFoundException;
+
 @Tag(name = "Authentication controller")
 @RestController
 @RequestMapping("/auth")
@@ -63,10 +65,13 @@ public class AuthController {
                     AuthResponse.builder()
                             .login(userRepository
                                     .findUserByEmail(request.getEmailOrLogin())
-                                    .orElseThrow(RuntimeException::new)
+                                    .orElseThrow(EntityNotFoundException::new)
                                     .getCredentials().getLogin())
                             .email(request.getEmailOrLogin())
                             .token(tokenUtils.generateToken(userProvider.loadUserByUsername(request.getEmailOrLogin())))
+                            .roleName(userRepository
+                                    .findUserByEmail(request.getEmailOrLogin())
+                                    .orElseThrow(EntityNotFoundException::new).getRole().getName())
                             .build());
         }
         else{
@@ -75,9 +80,12 @@ public class AuthController {
                             .login(request.getEmailOrLogin())
                             .email(userRepository
                                     .findUserByCredentialsLogin(request.getEmailOrLogin())
-                                    .orElseThrow(RuntimeException::new)
+                                    .orElseThrow(EntityNotFoundException::new)
                                     .getEmail())
                             .token(tokenUtils.generateToken(userProvider.loadUserByUsername(request.getEmailOrLogin())))
+                            .roleName(userRepository
+                                    .findUserByCredentialsLogin(request.getEmailOrLogin())
+                                    .orElseThrow(EntityNotFoundException::new).getRole().getName())
                             .build());
         }
     }
