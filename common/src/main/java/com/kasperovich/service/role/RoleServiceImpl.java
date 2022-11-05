@@ -6,6 +6,8 @@ import com.kasperovich.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class RoleServiceImpl implements RoleService {
@@ -16,4 +18,17 @@ public class RoleServiceImpl implements RoleService {
     public Role findRoleByName(Roles name) {
         return roleRepository.findAllByName(name);
     }
+
+    @Override
+    public List<Role> findAll() {
+        return roleRepository.findAll();
+    }
+
+    @Override
+    public Long deleteById(Long id) {
+        roleRepository.deleteById(id);
+        return id;
+    }
+
+
 }
