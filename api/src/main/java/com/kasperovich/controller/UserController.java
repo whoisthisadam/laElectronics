@@ -44,7 +44,7 @@ public class UserController {
     private final UserUpdateConverter userUpdateConverter;
 
     @Operation(
-    summary = "Gets all users(only for Admin)",
+    summary = "Gets all users(Admin only)",
     responses = {
         @ApiResponse(
                 responseCode = "200",
@@ -77,7 +77,7 @@ public class UserController {
                                     mediaType = "application/json",
                                     array = @ArraySchema(schema = @Schema(implementation =UserGetDto.class))))
             })
-    @PatchMapping
+    @PatchMapping("/uodate")
     public ResponseEntity<Map<String, UserGetDto>>updateUser(@RequestParam String id, @RequestBody UserCreateDto userCreateDto){
         Long Id=Long.parseLong(id);
         User user= userUpdateConverter.doConvert(userCreateDto, Id);
@@ -87,6 +87,28 @@ public class UserController {
         );
     }
 
-
-
+    @Operation(
+            summary = "Delete user(Admin only)",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "User updated",
+                            content =
+                            @Content(
+                                    mediaType = "application/json",
+                                    array = @ArraySchema(schema = @Schema(implementation =UserGetDto.class))))
+            } ,parameters = {
+            @Parameter(
+                    in = ParameterIn.HEADER,
+                    name = "X-Auth-Token",
+                    required = true,
+                    description = "JWT Token, can be generated in auth controller /auth")
+    })
+    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
+    @PatchMapping("/delete")
+    public ResponseEntity<String>deleteUser(@RequestParam String id){
+        Long iD=Long.parseLong(id);
+        userService.deleteUser(iD);
+        return ResponseEntity.ok("Deleted user with ID number "+id);
+    }
 }

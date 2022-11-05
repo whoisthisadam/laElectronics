@@ -17,6 +17,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -75,6 +77,13 @@ public class UserServiceImpl implements UserService{
         if(user.getCredentials()!=null){
             user.setCredentials(new Credentials(user.getCredentials().getLogin(), encoder.encode(user.getCredentials().getPassword())));
         }
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User deleteUser(Long id) {
+        User user=userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        user.setIsDeleted(true);
         return userRepository.save(user);
     }
 }

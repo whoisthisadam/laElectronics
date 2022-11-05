@@ -37,7 +37,7 @@ public class RolesController {
 
 
     @Operation(
-            summary = "Gets all roles(only for Admin&Moderator)",
+            summary = "Gets all roles(Admin&Moderator only)",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
