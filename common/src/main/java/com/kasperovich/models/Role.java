@@ -19,12 +19,11 @@ import java.util.Set;
 @Table(name = "roles")
 public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     Long id;
 
     @Column
-    @Size(max = 40)
     @Enumerated(EnumType.STRING)
     Roles name;
 

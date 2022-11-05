@@ -13,4 +13,6 @@ public interface RoleService {
 
     public Long deleteById(Long id);
 
+    public Role createRole(Role role);
+
 }

@@ -1,7 +1,10 @@
 package com.kasperovich.controller;
 
+import com.kasperovich.dto.roles.RoleCreateDto;
 import com.kasperovich.dto.roles.RoleGetDto;
 import com.kasperovich.mapping.mappers.RoleListMapper;
+import com.kasperovich.mapping.mappers.RoleMapper;
+import com.kasperovich.models.Role;
 import com.kasperovich.service.role.RoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -20,7 +23,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.kasperovich.repository.RoleRepository;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @Validated
@@ -35,6 +40,9 @@ public class RolesController {
     private final RoleService roleService;
 
     private final RoleListMapper roleListMapper;
+
+
+    private final RoleMapper roleMapper;
 
 
     @Operation(
@@ -87,5 +95,34 @@ public class RolesController {
     public ResponseEntity<String>deleteById(@RequestParam String id){
         return new ResponseEntity<>("Role with ID number "+roleService.deleteById(Long.parseLong(id))+" deleted",
                 HttpStatus.OK);
+    }
+
+    @Operation(
+            summary = "Create role(Admin only)",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Deleted",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            array = @ArraySchema(schema = @Schema(implementation = RoleGetDto.class)))
+                            })
+            }
+            ,parameters = {
+            @Parameter(
+                    in = ParameterIn.HEADER,
+                    name = "X-Auth-Token",
+                    required = true,
+                    description = "JWT Token, can be generated in auth controller /auth")
+    })
+    @Secured("ROLE_ADMIN")
+    @PostMapping
+    public ResponseEntity<Map<String, RoleGetDto>>createRole(@RequestBody RoleCreateDto roleCreateDto){
+        Role role=roleMapper.toEntity(roleCreateDto);
+        return new ResponseEntity<>(
+                Collections.singletonMap(
+                        "Created a role:", roleMapper.toResponse(roleService.createRole(role))),
+                HttpStatus.CREATED);
     }
 }
