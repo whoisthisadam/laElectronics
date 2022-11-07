@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -67,7 +68,7 @@ public class UserController {
     }
 
     @Operation(
-            summary = "Update user",
+            summary = "Update user(Admin only)",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -76,7 +77,14 @@ public class UserController {
                             @Content(
                                     mediaType = "application/json",
                                     array = @ArraySchema(schema = @Schema(implementation =UserGetDto.class))))
-            })
+            },parameters = {
+            @Parameter(
+                    in = ParameterIn.HEADER,
+                    name = "X-Auth-Token",
+                    required = true,
+                    description = "JWT Token, can be generated in auth controller /auth")
+    })
+    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     @PatchMapping("/update")
     public ResponseEntity<Map<String, UserGetDto>>updateUser(@RequestParam String id, @RequestBody UserCreateDto userCreateDto){
         Long Id=Long.parseLong(id);
@@ -96,7 +104,7 @@ public class UserController {
                             content =
                             @Content(
                                     mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation =UserGetDto.class))))
+                                    array = @ArraySchema(schema = @Schema(implementation =String.class))))
             } ,parameters = {
             @Parameter(
                     in = ParameterIn.HEADER,

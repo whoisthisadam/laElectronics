@@ -6,6 +6,7 @@ import com.kasperovich.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Service
@@ -31,7 +32,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Role createRole(Role role) {
+    public Role createRole(@NotNull Role role) {
         return roleRepository.save(role);
     }
 

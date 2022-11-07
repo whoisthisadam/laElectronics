@@ -1,6 +1,7 @@
 package com.kasperovich.models;
 
 
+import com.kasperovich.enums.ProductStatus;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -11,7 +12,7 @@ import java.util.Set;
 @Table(name = "products")
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -21,8 +22,8 @@ public class Product {
     @Column(name = "brand")
     String brand;
 
-    @Column(length = 6, precision = 2)
-    Double price;
+    @Column(name = "price")
+    Long price;
 
     @Embedded
     @AttributeOverrides({
@@ -30,6 +31,13 @@ public class Product {
             @AttributeOverride(name = "modificationDate", column = @Column(name = "modification_date"))
     })
     Edit editData;
+
+    @Column(name = "is_deleted")
+    Boolean isDeleted=false;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    ProductStatus status;
 
     @ManyToOne
     @JoinColumn(name = "discount_id")

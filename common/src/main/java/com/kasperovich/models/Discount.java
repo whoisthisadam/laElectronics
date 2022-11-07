@@ -7,6 +7,8 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
@@ -28,8 +30,9 @@ public class Discount {
     Discounts name;
 
     @Column(name = "discount_percent")
-    @Size(min = 0, max = 100)
-    Double discountPercent;
+    @Max(100)
+    @Positive
+    Integer discountPercent;
 
     @Embedded
     @AttributeOverrides({

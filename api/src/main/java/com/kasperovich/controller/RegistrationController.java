@@ -30,7 +30,7 @@ import java.util.Map;
 @RestController
 @Validated
 @Slf4j
-@RequestMapping("data/registration")
+@RequestMapping("/registration")
 @RequiredArgsConstructor
 @Tag(name = "Registration")
 public class RegistrationController {

@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.EntityNotFoundException;
 
-@Tag(name = "Authentication controller")
+@Tag(name = "Authentication")
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor

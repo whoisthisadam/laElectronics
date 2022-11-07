@@ -102,7 +102,7 @@ public class RolesController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Deleted",
+                            description = "Created",
                             content = {
                                     @Content(
                                             mediaType = "application/json",

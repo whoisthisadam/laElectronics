@@ -15,7 +15,7 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Edit {
 
-    Timestamp creationDate=new Timestamp(new Date().getTime());
+    Timestamp creationDate;
 
     Timestamp modificationDate;
 
