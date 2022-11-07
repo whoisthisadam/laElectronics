@@ -2,6 +2,7 @@ package com.kasperovich.service.user;
 
 import com.kasperovich.enums.Discounts;
 import com.kasperovich.enums.Roles;
+import com.kasperovich.exception.BadPasswordException;
 import com.kasperovich.models.Credentials;
 import com.kasperovich.models.Edit;
 import com.kasperovich.models.User;
@@ -10,6 +11,7 @@ import com.kasperovich.repository.DiscountRepository;
 import com.kasperovich.repository.RoleRepository;
 import com.kasperovich.repository.UserRepository;
 import com.kasperovich.service.role.RoleService;
+import com.kasperovich.util.ValidCheck;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +48,7 @@ public class UserServiceImpl implements UserService{
     PasswordEncoder encoder=new BCryptPasswordEncoder();
 
     @Override
-    public User createUser(@NotNull User user) {
+    public User createUser(@NotNull User user) throws BadPasswordException {
 
         if(user.getCredentials()==null){
             user.setRole(roleService.findRoleByName(Roles.ROLE_USER_NOT_AUTHORIZED));
@@ -56,6 +58,9 @@ public class UserServiceImpl implements UserService{
         }
 
         if(user.getCredentials()!=null){
+            if(!new ValidCheck().isPasswordValid(user.getCredentials().getPassword())){
+                throw new BadPasswordException("Password must include at least one capital, or number, or symbol");
+            }
             user.setUserDiscount(discountRepository.findDiscountsByName(Discounts.LOGIN_DISCOUNT));
             user.setCredentials(new Credentials(user.getCredentials().getLogin(), encoder.encode(user.getCredentials().getPassword())));
         }

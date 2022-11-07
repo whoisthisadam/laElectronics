@@ -5,6 +5,7 @@ import com.kasperovich.dto.auth.AuthResponse;
 import com.kasperovich.repository.UserRepository;
 import com.kasperovich.security.UserSecurityService;
 import com.kasperovich.security.jwt.JwtTokenHelper;
+import com.kasperovich.util.ValidCheck;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -60,7 +61,7 @@ public class AuthController {
 
         SecurityContextHolder.getContext().setAuthentication(authenticate);
 
-        if(UserSecurityService.isEmailValid(request.getEmailOrLogin())){
+        if(new ValidCheck().isEmailValid(request.getEmailOrLogin())){
             return ResponseEntity.ok(
                     AuthResponse.builder()
                             .login(userRepository
