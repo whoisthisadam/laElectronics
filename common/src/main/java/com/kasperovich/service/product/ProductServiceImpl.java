@@ -1,11 +1,10 @@
 package com.kasperovich.service.product;
 
 import com.kasperovich.enums.ProductStatus;
-import com.kasperovich.exception.UnableToDeleteProductException;
+import com.kasperovich.exception.NotDeletableStatusException;
 import com.kasperovich.models.Edit;
 import com.kasperovich.models.Product;
 import com.kasperovich.repository.ProductRepository;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -35,13 +34,15 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public Product deleteProduct(Long id) throws UnableToDeleteProductException {
+    public Product deleteProduct(Long id) throws NotDeletableStatusException {
         Product product=productRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         if(product.getStatus()== ProductStatus.OUT_OF_STOCK){
             product.setIsDeleted(true);
             return productRepository.save(product);
         }
-        else throw  new UnableToDeleteProductException("Unable to delete product with this status!");
+        else throw new NotDeletableStatusException(
+                "Unable to delete product with status "+product.getStatus().toString()
+        );
     }
 
     @Override

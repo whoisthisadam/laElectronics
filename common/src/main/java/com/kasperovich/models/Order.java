@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
@@ -19,7 +20,7 @@ import java.util.Set;
 @Table(name = "order_details")
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     Long id;
 
@@ -28,7 +29,7 @@ public class Order {
     User user;
 
     @Column(name = "total")
-    @Size(min=0)
+//    @Positive
     Long total;
 
     @OneToOne
@@ -45,6 +46,9 @@ public class Order {
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     OrderStatus orderStatus;
+
+    @Column(name = "is_deleted")
+    Boolean isDeleted=false;
 
     @ManyToMany(mappedBy = "orders", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     Set<Product>products;

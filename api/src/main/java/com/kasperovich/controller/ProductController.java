@@ -2,9 +2,7 @@ package com.kasperovich.controller;
 
 import com.kasperovich.dto.product.ProductCreateDto;
 import com.kasperovich.dto.product.ProductGetDto;
-import com.kasperovich.dto.roles.RoleGetDto;
-import com.kasperovich.dto.users.UserGetDto;
-import com.kasperovich.exception.UnableToDeleteProductException;
+import com.kasperovich.exception.NotDeletableStatusException;
 import com.kasperovich.mapping.converters.product.ProductUpdateConverter;
 import com.kasperovich.mapping.mappers.ProductListMapper;
 import com.kasperovich.mapping.mappers.ProductMapper;
@@ -25,7 +23,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -141,7 +138,7 @@ public class ProductController {
     })
     @Secured("ROLE_ADMIN")
     @PatchMapping("/delete")
-    public ResponseEntity<String>deleteProduct(@RequestParam(value = "ID") String idStr) throws UnableToDeleteProductException {
+    public ResponseEntity<String>deleteProduct(@RequestParam(value = "ID") String idStr) throws NotDeletableStatusException {
         Long id=Long.parseLong(idStr);
         productService.deleteProduct(id);
         return ResponseEntity.ok("Deleted product with id:"+id);

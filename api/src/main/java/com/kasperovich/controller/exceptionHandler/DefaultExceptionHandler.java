@@ -1,7 +1,7 @@
 package com.kasperovich.controller.exceptionHandler;
 
 import com.kasperovich.exception.BadPasswordException;
-import com.kasperovich.exception.UnableToDeleteProductException;
+import com.kasperovich.exception.NotDeletableStatusException;
 import com.kasperovich.util.UUIDGenerator;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -30,7 +30,7 @@ public class DefaultExceptionHandler {
 
     @ExceptionHandler({
             BadPasswordException.class,
-            UnableToDeleteProductException.class,
+            NotDeletableStatusException.class,
             NumberFormatException.class
     })
     public ResponseEntity<Map<String, ErrorContainer>> handledException(Exception exception){

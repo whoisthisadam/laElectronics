@@ -2,19 +2,21 @@ package com.kasperovich.models;
 
 import com.kasperovich.enums.PaymentProviders;
 import com.kasperovich.enums.PaymentStatus;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "payment_details")
 @EqualsAndHashCode(exclude = "order")
 public class Payment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     Long id;
 
@@ -22,7 +24,7 @@ public class Payment {
     Order order;
 
     @Column(length = 10, precision = 2)
-    Double amount;
+    Long amount;
 
     @Column(name = "provider")
     @Enumerated(EnumType.STRING)

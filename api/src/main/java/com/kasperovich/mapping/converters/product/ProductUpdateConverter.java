@@ -62,7 +62,8 @@ public class ProductUpdateConverter implements Converter<ProductCreateDto, Produ
                                 .orElseThrow(EntityNotFoundException::new).getStatus()
                         )
         );
-        product.setEditData(productRepository.findById(id).orElseThrow(EntityNotFoundException::new).getEditData());
+        product.setEditData(productRepository
+                .findById(id).orElseThrow(EntityNotFoundException::new).getEditData());
         return product;
     }
 }

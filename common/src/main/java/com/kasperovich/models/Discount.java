@@ -21,7 +21,7 @@ import java.util.Set;
 @Table(name = "discount")
 public class Discount {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     Long id;
 
@@ -40,6 +40,9 @@ public class Discount {
             @AttributeOverride(name = "modificationDate", column = @Column(name = "modification_date"))
     })
     Edit editData;
+
+    @Column(name = "is_deleted")
+    Boolean isDeleted=false;
 
     @OneToMany(mappedBy = "userDiscount", fetch = FetchType.EAGER)
     Set<User>users;
