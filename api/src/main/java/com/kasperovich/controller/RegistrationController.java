@@ -3,6 +3,7 @@ package com.kasperovich.controller;
 import com.kasperovich.dto.users.UserCreateDto;
 import com.kasperovich.dto.users.UserGetDto;
 import com.kasperovich.exception.BadPasswordException;
+import com.kasperovich.mapping.converters.discount.DiscountGetConverter;
 import com.kasperovich.mapping.mappers.UserMapper;
 import com.kasperovich.models.User;
 import com.kasperovich.repository.RoleRepository;
@@ -39,7 +40,7 @@ public class RegistrationController {
 
     private final UserMapper userMapper;
 
-    private final RoleRepository roleRepository;
+    private final DiscountGetConverter discountGetConverter;
 
     @Operation(
             summary = "Register a new User",
@@ -64,8 +65,11 @@ public class RegistrationController {
     @Transactional
     public ResponseEntity<Map<String, UserGetDto>> addUser(@Valid @RequestBody UserCreateDto userCreateDto) throws BadPasswordException {
         User user = userMapper.toEntity(userCreateDto);
-        userService.createUser(user);
-        return new ResponseEntity<>(Collections.singletonMap("New user:", userMapper.toDto(user)),
+        UserGetDto userGetDto=userMapper.toDto(userService.createUser(user));
+        if(user.getUserDiscount()!=null){
+            userGetDto.setDiscount(discountGetConverter.convert(user.getUserDiscount()));
+        }
+        return new ResponseEntity<>(Collections.singletonMap("New user:", userGetDto),
                 HttpStatus.CREATED);
     }
 }

@@ -34,7 +34,7 @@ public class OrderUpdateConverter implements Converter<OrderUpdateDto, Order> {
 
     public Order doConvert(OrderUpdateDto orderUpdateDto, Long id) throws Exception {
 
-        Order order=orderRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        Order order=orderRepository.findById(id).orElseThrow(()->new EntityNotFoundException("No order with this ID"));
 
 
         if(orderUpdateDto.getProducts()!=null){
@@ -42,7 +42,7 @@ public class OrderUpdateConverter implements Converter<OrderUpdateDto, Order> {
                     .getProducts()
                     .stream()
                     .map(x->productRepository.findById(x)
-                            .orElseThrow(EntityNotFoundException::new))
+                            .orElseThrow(()->new EntityNotFoundException("No product with this ID")))
                     .collect(Collectors.toSet()));
         }
 
