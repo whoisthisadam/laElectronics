@@ -32,8 +32,7 @@ public class Order {
 //    @Positive
     Long total;
 
-    @OneToOne
-    @JoinColumn(name = "payment_id")
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     Payment payment;
 
     @Embedded
@@ -50,7 +49,11 @@ public class Order {
     @Column(name = "is_deleted")
     Boolean isDeleted=false;
 
-    @ManyToMany(mappedBy = "orders", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany
+    @JoinTable(name = "l_orders_products",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
     Set<Product>products;
 
 

@@ -1,10 +1,12 @@
 package com.kasperovich.dto.order;
 
 import com.kasperovich.dto.payment.PaymentGetDto;
+import com.kasperovich.dto.product.ProductGetDto;
 import com.kasperovich.enums.OrderStatus;
-import com.kasperovich.models.Payment;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
+
+import java.util.List;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -21,5 +23,7 @@ public class OrderGetDto {
     PaymentGetDto payment;
 
     OrderStatus status;
+
+    List<ProductGetDto> products;
 
 }

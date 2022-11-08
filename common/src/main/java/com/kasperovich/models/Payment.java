@@ -20,7 +20,8 @@ public class Payment {
     @Column(name = "id", nullable = false)
     Long id;
 
-    @OneToOne(mappedBy = "payment", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne
+    @JoinColumn(name = "order_id")
     Order order;
 
     @Column(length = 10, precision = 2)

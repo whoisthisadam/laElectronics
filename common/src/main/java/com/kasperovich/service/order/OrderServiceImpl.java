@@ -28,7 +28,7 @@ public class OrderServiceImpl implements OrderService{
     PaymentRepository paymentRepository;
     @Override
     public List<Order> findAll() {
-        return orderRepository.findAll().stream().filter(x->x.getIsDeleted()==false).collect(Collectors.toList());
+        return orderRepository.findAll().stream().filter(x-> !x.getIsDeleted()).collect(Collectors.toList());
     }
 
     @Override
@@ -37,19 +37,17 @@ public class OrderServiceImpl implements OrderService{
             order.setOrderStatus(OrderStatus.NOT_STARTED);
         }
         else order.setOrderStatus(OrderStatus.IN_PROGRESS);
+        order=orderRepository.save(order);
         paymentRepository.save(order.getPayment());
-        return orderRepository.save(order);
+        return order;
     }
 
     @Override
     public Order updateOrder(Order order) {
-        order.setEditData(
-                new Edit(
-                        order.getEditData().getCreationDate(),
-                        new Timestamp(new Date().getTime())
-                )
-        );
-        return orderRepository.save(order);
+        order.setEditData(new Edit(order.getEditData().getCreationDate(), new Timestamp(new Date().getTime())));
+        order=orderRepository.save(order);
+        paymentRepository.save(order.getPayment());
+        return order;
     }
 
     @Override

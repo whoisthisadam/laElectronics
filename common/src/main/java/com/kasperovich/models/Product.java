@@ -46,11 +46,7 @@ public class Product {
     @JoinColumn(name = "discount_id")
     Discount productDiscount;
 
-    @ManyToMany
-    @JoinTable(name = "l_orders_products",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
+    @ManyToMany(mappedBy = "products", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     Set<Order> orders;
 
 }
