@@ -27,6 +27,7 @@ import org.aspectj.weaver.ast.Or;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -67,6 +68,7 @@ public class OrderController {
             }
     )
     @PostMapping
+    @Transactional
     public ResponseEntity<Map<String, OrderGetDto>>create(@RequestBody OrderCreateDto orderCreateDto){
         Order order=orderCreateConverter.convert(orderCreateDto);
         orderService.createOrder(order);
@@ -118,6 +120,7 @@ public class OrderController {
                     required = true,
                     description = "JWT Token, can be generated in auth controller /auth")
     })
+    @Transactional
     @Secured({"ROLE_ADMIN","ROLE_MODERATOR"})
     @PatchMapping("/update")
     public ResponseEntity<Map<String, OrderGetDto>>updateOrder(@RequestBody OrderUpdateDto orderUpdateDto,

@@ -23,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -82,6 +83,7 @@ public class ProductController {
                     description = "JWT Token, can be generated in auth controller /auth")
     })
     @Secured({"ROLE_ADMIN","ROLE_MODERATOR"})
+    @Transactional
     @PostMapping
     public ResponseEntity<Map<String,ProductGetDto> >createProduct(@RequestBody ProductCreateDto productCreateDto){
         Product product=productService.createProduct(productMapper.toEntity(productCreateDto));
@@ -110,6 +112,7 @@ public class ProductController {
                     description = "JWT Token, can be generated in auth controller /auth")
     })
     @Secured({"ROLE_ADMIN","ROLE_MODERATOR"})
+    @Transactional
     @PatchMapping("/update")
     public ResponseEntity<Map<String, ProductGetDto>>updateProduct(@RequestParam String id,@RequestBody ProductCreateDto productCreateDto){
         Long iD=Long.parseLong(id);

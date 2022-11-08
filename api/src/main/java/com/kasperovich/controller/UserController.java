@@ -21,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -85,6 +86,7 @@ public class UserController {
                     description = "JWT Token, can be generated in auth controller /auth")
     })
     @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
+    @Transactional
     @PatchMapping("/update")
     public ResponseEntity<Map<String, UserGetDto>>updateUser(@RequestParam String id, @RequestBody UserCreateDto userCreateDto){
         Long Id=Long.parseLong(id);
