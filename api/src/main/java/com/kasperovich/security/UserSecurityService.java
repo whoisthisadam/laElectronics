@@ -1,7 +1,6 @@
 package com.kasperovich.security;
 
 import com.kasperovich.models.User;
-import com.kasperovich.repository.RoleRepository;
 import com.kasperovich.repository.UserRepository;
 import com.kasperovich.util.ValidCheck;
 import lombok.RequiredArgsConstructor;
@@ -11,9 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import javax.validation.Valid;
 import java.util.Optional;
-import java.util.regex.Pattern;
 
 @Configuration
 @RequiredArgsConstructor

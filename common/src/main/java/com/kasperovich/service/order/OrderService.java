@@ -2,8 +2,6 @@ package com.kasperovich.service.order;
 
 import com.kasperovich.exception.NotDeletableStatusException;
 import com.kasperovich.models.Order;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
 
 import java.util.List;
 

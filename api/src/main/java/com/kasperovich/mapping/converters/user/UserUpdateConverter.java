@@ -4,7 +4,6 @@ import com.kasperovich.dto.users.UserCreateDto;
 import com.kasperovich.mapping.mappers.AddressMapper;
 import com.kasperovich.models.User;
 import com.kasperovich.repository.UserRepository;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;

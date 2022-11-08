@@ -1,11 +1,6 @@
 package com.kasperovich.dto.users;
 
 import com.kasperovich.dto.discount.DiscountGetDto;
-import com.kasperovich.enums.Discounts;
-import com.kasperovich.enums.Roles;
-import com.kasperovich.models.Address;
-import com.kasperovich.models.Discount;
-import com.kasperovich.models.Edit;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;

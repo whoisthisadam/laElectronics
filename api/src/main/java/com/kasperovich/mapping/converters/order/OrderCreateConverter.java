@@ -1,26 +1,19 @@
 package com.kasperovich.mapping.converters.order;
 
 import com.kasperovich.dto.order.OrderCreateDto;
-import com.kasperovich.dto.product.ProductGetDto;
-import com.kasperovich.enums.PaymentStatus;
 import com.kasperovich.mapping.converters.payment.PaymentCreateConverter;
 import com.kasperovich.models.Edit;
 import com.kasperovich.models.Order;
-import com.kasperovich.repository.PaymentRepository;
 import com.kasperovich.repository.ProductRepository;
 import com.kasperovich.repository.UserRepository;
-import com.kasperovich.service.user.UserService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.aspectj.weaver.ast.Or;
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 

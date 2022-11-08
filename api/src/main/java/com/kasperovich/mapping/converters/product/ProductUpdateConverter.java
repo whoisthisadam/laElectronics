@@ -1,16 +1,12 @@
 package com.kasperovich.mapping.converters.product;
 
 import com.kasperovich.dto.product.ProductCreateDto;
-import com.kasperovich.dto.users.UserCreateDto;
-import com.kasperovich.models.Edit;
 import com.kasperovich.models.Product;
-import com.kasperovich.models.User;
 import com.kasperovich.repository.ProductRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.security.web.PortResolverImpl;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;

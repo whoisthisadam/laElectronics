@@ -18,9 +18,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -29,7 +32,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -38,6 +40,7 @@ import java.util.stream.Collectors;
 @RequestMapping("data/users")
 @RequiredArgsConstructor
 @Tag(name = "Users")
+@CacheConfig(cacheNames = "data")
 public class UserController {
 
     private final UserListMapper userListMapper;
@@ -69,6 +72,7 @@ public class UserController {
     })
     @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     @GetMapping
+    @Cacheable
     public ResponseEntity<List<UserGetDto>>findAll(){
         List<User>users=userService.findAll();
         List<UserGetDto>userGetDtos=users
@@ -104,6 +108,7 @@ public class UserController {
     })
     @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     @Transactional
+    @CachePut
     @PatchMapping("/update")
     public ResponseEntity<Map<String, UserGetDto>>updateUser(@RequestParam String id, @RequestBody UserCreateDto userCreateDto){
         Long Id=Long.parseLong(id);
@@ -132,6 +137,7 @@ public class UserController {
                     description = "JWT Token, can be generated in auth controller /auth")
     })
     @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
+    @CacheEvict
     @PatchMapping("/delete")
     public ResponseEntity<String>deleteUser(@RequestParam String id){
         Long iD=Long.parseLong(id);

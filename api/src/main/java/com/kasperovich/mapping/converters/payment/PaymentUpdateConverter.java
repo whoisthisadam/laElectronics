@@ -5,7 +5,6 @@ import com.kasperovich.models.Edit;
 import com.kasperovich.models.Payment;
 import com.kasperovich.repository.PaymentRepository;
 import lombok.AccessLevel;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;

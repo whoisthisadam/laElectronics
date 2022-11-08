@@ -5,7 +5,6 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.Embeddable;
 import java.sql.Timestamp;
-import java.util.Date;
 
 @Data
 @Embeddable

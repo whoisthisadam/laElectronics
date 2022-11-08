@@ -1,16 +1,12 @@
 package com.kasperovich.dto.users;
 
 import com.kasperovich.dto.address.AddressCreateDto;
-import com.kasperovich.enums.Discounts;
-import com.kasperovich.models.Address;
 import com.kasperovich.models.Credentials;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 
 @Data

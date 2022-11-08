@@ -23,8 +23,6 @@ public class ValidCheck {
         return pat.matcher(email).matches();
     }
 
-
-
     public boolean isPasswordValid(String str) {
         char ch;
         boolean flag=false;
@@ -36,16 +34,4 @@ public class ValidCheck {
         }
         return flag;
     }
-
-//    public static void main(String[] args) {
-//
-//        ValidCheck vc=new ValidCheck();
-//
-//        System.out.println(vc.isPasswordValid("abcd1"));
-//        System.out.println(vc.isPasswordValid("abcf"));
-//        System.out.println(vc.isPasswordValid("abcd_"));
-//        System.out.println(vc.isPasswordValid("Abcd"));
-//    }
-
-
 }

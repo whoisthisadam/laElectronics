@@ -3,7 +3,6 @@ package com.kasperovich.controller;
 import com.kasperovich.dto.auth.AuthRequest;
 import com.kasperovich.dto.auth.AuthResponse;
 import com.kasperovich.repository.UserRepository;
-import com.kasperovich.security.UserSecurityService;
 import com.kasperovich.security.jwt.JwtTokenHelper;
 import com.kasperovich.util.ValidCheck;
 import io.swagger.v3.oas.annotations.Operation;

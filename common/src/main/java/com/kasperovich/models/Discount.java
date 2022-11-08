@@ -9,7 +9,6 @@ import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Data

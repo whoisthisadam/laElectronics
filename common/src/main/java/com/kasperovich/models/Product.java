@@ -2,7 +2,6 @@ package com.kasperovich.models;
 
 
 import com.kasperovich.enums.ProductStatus;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
