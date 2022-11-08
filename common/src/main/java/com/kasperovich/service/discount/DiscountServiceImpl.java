@@ -11,6 +11,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -31,7 +32,7 @@ public class DiscountServiceImpl implements DiscountService{
     }
 
     @Override
-    public Discount createDiscount(Discount discount) {
+    public Discount createDiscount(@Valid Discount discount) {
         discount.setEditData(new Edit(new Timestamp(new Date().getTime()), null));
         return discountRepository.save(discount);
     }

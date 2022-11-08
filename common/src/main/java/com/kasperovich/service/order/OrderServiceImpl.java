@@ -13,6 +13,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -32,7 +33,7 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public Order createOrder(Order order) {
+    public Order createOrder(@Valid Order order) {
         if(order.getPayment().getStatus()==PaymentStatus.NOT_PAID){
             order.setOrderStatus(OrderStatus.NOT_STARTED);
         }
@@ -47,7 +48,7 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public Order updateOrder(Order order) {
+    public Order updateOrder(@Valid Order order) {
         order.setEditData(new Edit(order.getEditData().getCreationDate(), new Timestamp(new Date().getTime())));
         order.setTotal(order.getTotal()-(order.getTotal()/100)*order.getUser().getUserDiscount().getDiscountPercent());
         order.getPayment().setAmount(order.getTotal());

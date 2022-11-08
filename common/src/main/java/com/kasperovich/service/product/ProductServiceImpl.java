@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import javax.validation.constraints.NotNull;
+import javax.validation.Valid;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +27,7 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public Product createProduct(@NotNull Product product) {
+    public Product createProduct(@Valid Product product) {
         product.setEditData(new Edit(new Timestamp(new Date().getTime()), null));
         product.setStatus(ProductStatus.values()[new Random().nextInt(3)]);
         return productRepository.save(product);
@@ -46,7 +46,7 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public Product updateProduct(Product product) {
+    public Product updateProduct(@Valid Product product) {
         product.setEditData(
                 new Edit(
                         product.getEditData().getCreationDate(), new Timestamp(new Date().getTime())

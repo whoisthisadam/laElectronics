@@ -18,7 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
-import javax.validation.constraints.NotNull;
+import javax.validation.Valid;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService{
     PasswordEncoder encoder=new BCryptPasswordEncoder();
 
     @Override
-    public User createUser(@NotNull User user) throws BadPasswordException {
+    public User createUser(@Valid User user) throws BadPasswordException {
 
         if(user.getCredentials()==null){
             user.setRole(roleService.findRoleByName(Roles.ROLE_USER_NOT_AUTHORIZED));
@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User updateUser(User user) {
+    public User updateUser(@Valid User user) {
         user.setEditData(new Edit(user.getEditData().getCreationDate(), new Timestamp(new Date().getTime())));
         if(user.getCredentials()!=null){
             user.setCredentials(new Credentials(user.getCredentials().getLogin(), encoder.encode(user.getCredentials().getPassword())));
