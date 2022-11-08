@@ -5,6 +5,7 @@ import com.kasperovich.dto.order.OrderGetDto;
 import com.kasperovich.dto.order.OrderUpdateDto;
 import com.kasperovich.dto.product.ProductGetDto;
 import com.kasperovich.dto.roles.RoleGetDto;
+import com.kasperovich.exception.NotDeletableStatusException;
 import com.kasperovich.mapping.converters.order.OrderCreateConverter;
 import com.kasperovich.mapping.converters.order.OrderGetConverter;
 import com.kasperovich.mapping.converters.order.OrderUpdateConverter;
@@ -110,21 +111,46 @@ public class OrderController {
                                             array = @ArraySchema(schema = @Schema(implementation = OrderGetDto.class)))
                             })
             }
-//            ,parameters = {
-//            @Parameter(
-//                    in = ParameterIn.HEADER,
-//                    name = "X-Auth-Token",
-//                    required = true,
-//                    description = "JWT Token, can be generated in auth controller /auth")
-//    })
-    )
-//    @Secured({"ROLE_ADMIN","ROLE_MODERATOR"})
+            ,parameters = {
+            @Parameter(
+                    in = ParameterIn.HEADER,
+                    name = "X-Auth-Token",
+                    required = true,
+                    description = "JWT Token, can be generated in auth controller /auth")
+    })
+    @Secured({"ROLE_ADMIN","ROLE_MODERATOR"})
     @PatchMapping("/update")
     public ResponseEntity<Map<String, OrderGetDto>>updateOrder(@RequestBody OrderUpdateDto orderUpdateDto,
                                                                @RequestParam String id) throws Exception {
         Order order=orderUpdateConverter.doConvert(orderUpdateDto, Long.parseLong(id));
         orderService.updateOrder(order);
         return ResponseEntity.ok(Collections.singletonMap("Updated order:", orderGetConverter.convert(order)));
+    }
+
+    @Operation(
+            summary = "Delete order(Admin only)",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Updated",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            array = @ArraySchema(schema = @Schema(implementation = String.class)))
+                            })
+            }
+            ,parameters = {
+            @Parameter(
+                    in = ParameterIn.HEADER,
+                    name = "X-Auth-Token",
+                    required = true,
+                    description = "JWT Token, can be generated in auth controller /auth")
+    })
+    @Secured("ROLE_ADMIN")
+    @PatchMapping("/delete")
+    public ResponseEntity<String>deleteOrder(@RequestParam String ID ) throws NotDeletableStatusException {
+        orderService.deleteOrder(Long.parseLong(ID));
+        return ResponseEntity.ok("Order with ID "+ID+" deleted");
     }
 
 
