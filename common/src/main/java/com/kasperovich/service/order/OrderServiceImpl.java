@@ -37,6 +37,10 @@ public class OrderServiceImpl implements OrderService{
             order.setOrderStatus(OrderStatus.NOT_STARTED);
         }
         else order.setOrderStatus(OrderStatus.IN_PROGRESS);
+        if(order.getUser().getUserDiscount()!=null){
+            order.setTotal(order.getTotal()-(order.getTotal()/100)*order.getUser().getUserDiscount().getDiscountPercent());
+            order.getPayment().setAmount(order.getTotal());
+        }
         order=orderRepository.save(order);
         paymentRepository.save(order.getPayment());
         return order;
@@ -45,6 +49,8 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public Order updateOrder(Order order) {
         order.setEditData(new Edit(order.getEditData().getCreationDate(), new Timestamp(new Date().getTime())));
+        order.setTotal(order.getTotal()-(order.getTotal()/100)*order.getUser().getUserDiscount().getDiscountPercent());
+        order.getPayment().setAmount(order.getTotal());
         order=orderRepository.save(order);
         paymentRepository.save(order.getPayment());
         return order;
