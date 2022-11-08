@@ -27,50 +27,26 @@ public class UserUpdateConverter implements Converter<UserCreateDto, User> {
     }
 
     public User doConvert(UserCreateDto userCreateDto, Long id) throws EntityNotFoundException {
-        User user=new User();
+        User user=userRepository.findById(id).orElseThrow(()->new EntityNotFoundException("User with this ID does not exist!"));
         user.setId(id);
         user.setCredentials(
-                Optional.ofNullable(
-                        userCreateDto.getCredentials())
-                        .orElse(userRepository.findById(id)
-                                .orElseThrow(EntityNotFoundException::new).getCredentials()
-                )
+                Optional.ofNullable(userCreateDto.getCredentials()).orElse(user.getCredentials())
         );
         user.setFirstName(
-                Optional.ofNullable(
-                        userCreateDto.getFirstName())
-                        .orElse(userRepository.findById(id)
-                                .orElseThrow(EntityNotFoundException::new).getFirstName()
-                )
+                Optional.ofNullable(userCreateDto.getFirstName()).orElse(user.getFirstName())
         );
         user.setLastName(
-                Optional.ofNullable(
-                        userCreateDto.getLastName())
-                        .orElse(userRepository.findById(id)
-                                .orElseThrow(EntityNotFoundException::new).getLastName()
-                )
+                Optional.ofNullable(userCreateDto.getLastName()).orElse(user.getLastName())
         );
         user.setEmail(
-                Optional.ofNullable(
-                        userCreateDto.getEmail())
-                        .orElse(userRepository.findById(id)
-                                .orElseThrow(EntityNotFoundException::new).getEmail()
-                )
+                Optional.ofNullable(userCreateDto.getEmail()).orElse(user.getEmail())
         );
         user.setMobilePhone(
-                Optional.ofNullable(
-                        userCreateDto.getMobilePhone())
-                        .orElse(userRepository.findById(id)
-                                .orElseThrow(EntityNotFoundException::new).getMobilePhone()
-                )
+                Optional.ofNullable(userCreateDto.getMobilePhone()).orElse(user.getMobilePhone())
         );
         user.setAddress(
-                Optional.ofNullable(addressMapper.toEntity(userCreateDto.getAddress()))
-                        .orElse(userRepository.findById(id)
-                                .orElseThrow(EntityNotFoundException::new).getAddress())
+                Optional.ofNullable(addressMapper.toEntity(userCreateDto.getAddress())).orElse(user.getAddress())
         );
-        user.setRole(userRepository.findById(id)
-                .orElseThrow(EntityNotFoundException::new).getRole());
         return user;
     }
 }

@@ -2,6 +2,7 @@ package com.kasperovich.dto.product;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.kasperovich.dto.discount.DiscountGetDto;
 import com.kasperovich.models.Discount;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.*;
@@ -29,7 +30,5 @@ public class ProductGetDto {
     String brand;
 
     Long price;
-
-    Discount discount;
 
 }

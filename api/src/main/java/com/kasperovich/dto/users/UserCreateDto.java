@@ -1,6 +1,7 @@
 package com.kasperovich.dto.users;
 
 import com.kasperovich.dto.address.AddressCreateDto;
+import com.kasperovich.enums.Discounts;
 import com.kasperovich.models.Address;
 import com.kasperovich.models.Credentials;
 import lombok.AccessLevel;

@@ -30,40 +30,24 @@ public class ProductUpdateConverter implements Converter<ProductCreateDto, Produ
     }
 
     public Product doConvert(ProductCreateDto productCreateDto, Long id) throws EntityNotFoundException {
-        Product product=new Product();
+        Product product=productRepository.findById(id).orElseThrow(()->new EntityNotFoundException("Product with this id does not exist"));
         product.setId(id);
 
         product.setName(
-                Optional.ofNullable(
-                                productCreateDto.getName())
-                        .orElse(productRepository.findById(id)
-                                .orElseThrow(EntityNotFoundException::new).getName()
-                        )
+                Optional.ofNullable(productCreateDto.getName()).orElse(product.getName())
         );
         product.setBrand(
                 Optional.ofNullable(
-                                productCreateDto.getBrand())
-                        .orElse(productRepository.findById(id)
-                                .orElseThrow(EntityNotFoundException::new).getBrand()
-                        )
+                                productCreateDto.getBrand()).orElse(product.getBrand())
         );
         product.setPrice(
-                Optional.ofNullable(
-                                productCreateDto.getPrice())
-                        .orElse(productRepository.findById(id)
-                                .orElseThrow(EntityNotFoundException::new).getPrice()
-                        )
-
+                Optional.ofNullable(productCreateDto.getPrice()).orElse(product.getPrice())
         );
         product.setStatus(
                 Optional.ofNullable(
                                 productCreateDto.getStatus())
-                        .orElse(productRepository.findById(id)
-                                .orElseThrow(EntityNotFoundException::new).getStatus()
-                        )
+                        .orElse(product.getStatus())
         );
-        product.setEditData(productRepository
-                .findById(id).orElseThrow(EntityNotFoundException::new).getEditData());
         return product;
     }
 }

@@ -2,6 +2,7 @@ package com.kasperovich.controller;
 
 import com.kasperovich.dto.users.UserCreateDto;
 import com.kasperovich.dto.users.UserGetDto;
+import com.kasperovich.mapping.converters.discount.DiscountGetConverter;
 import com.kasperovich.mapping.converters.user.UserUpdateConverter;
 import com.kasperovich.mapping.mappers.UserListMapper;
 import com.kasperovich.mapping.mappers.UserMapper;
@@ -28,6 +29,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @Validated
@@ -44,6 +47,8 @@ public class UserController {
     private final UserMapper userMapper;
 
     private final UserUpdateConverter userUpdateConverter;
+
+    private final DiscountGetConverter discountGetConverter;
 
     @Operation(
     summary = "Gets all users(Admin only)",
@@ -65,7 +70,19 @@ public class UserController {
     @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     @GetMapping
     public ResponseEntity<List<UserGetDto>>findAll(){
-        return ResponseEntity.ok(userListMapper.toDtoList(userService.findAll()));
+        List<User>users=userService.findAll();
+        List<UserGetDto>userGetDtos=users
+                .stream()
+                .map(
+                        x->{
+                            UserGetDto userGetDto=userMapper.toDto(x);
+                            if(x.getUserDiscount()!=null){
+                                userGetDto.setDiscount(discountGetConverter.convert(x.getUserDiscount()));
+                            }
+                            return userGetDto;
+                        }
+                ).collect(Collectors.toList());
+        return ResponseEntity.ok(userGetDtos);
     }
 
     @Operation(
