@@ -48,11 +48,9 @@ public class OrderUpdateConverter implements Converter<OrderUpdateDto, Order> {
 
         order.setTotal(order.getProducts().stream().map(Product::getPrice).reduce(Long::sum).orElseThrow(Exception::new));
 
-        order.setPayment(Optional.ofNullable(paymentUpdateConverter.convert(orderUpdateDto.getPayment(),order.getPayment().getId())).orElse(
-                order.getPayment()
-        ));
-
-
+        if(orderUpdateDto.getPayment()!=null){
+            order.setPayment(paymentUpdateConverter.convert(orderUpdateDto.getPayment(), order.getPayment().getId()));
+        }
         return order;
 
     }

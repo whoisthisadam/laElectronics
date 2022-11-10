@@ -48,12 +48,14 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public Order updateOrder(@Valid Order order) {
+    public Order updateOrder(Order order) {
         order.setEditData(new Edit(order.getEditData().getCreationDate(), new Timestamp(new Date().getTime())));
         order.setTotal(order.getTotal()-(order.getTotal()/100)*order.getUser().getUserDiscount().getDiscountPercent());
         order.getPayment().setAmount(order.getTotal());
         order=orderRepository.save(order);
-        paymentRepository.save(order.getPayment());
+        if(order.getPayment()!=null){
+            paymentRepository.save(order.getPayment());
+        }
         return order;
     }
 
