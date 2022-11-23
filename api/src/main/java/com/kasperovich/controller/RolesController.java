@@ -107,7 +107,8 @@ public class RolesController {
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            array = @ArraySchema(schema = @Schema(implementation = RoleGetDto.class)))
+                                            array = @ArraySchema(schema = @Schema(implementation = RoleGetDto.class))
+                                    )
                             })
             }
             ,parameters = {
