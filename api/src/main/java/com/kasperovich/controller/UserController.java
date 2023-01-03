@@ -4,7 +4,6 @@ import com.kasperovich.dto.users.UserCreateDto;
 import com.kasperovich.dto.users.UserGetDto;
 import com.kasperovich.mapping.converters.discount.DiscountGetConverter;
 import com.kasperovich.mapping.converters.user.UserUpdateConverter;
-import com.kasperovich.mapping.mappers.UserListMapper;
 import com.kasperovich.mapping.mappers.UserMapper;
 import com.kasperovich.models.User;
 import com.kasperovich.service.user.UserService;
@@ -29,7 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -43,8 +41,6 @@ import java.util.stream.Collectors;
 @Tag(name = "Users")
 @CacheConfig(cacheNames = "data")
 public class UserController {
-
-    private final UserListMapper userListMapper;
 
     private final UserService userService;
 
@@ -112,8 +108,7 @@ public class UserController {
     @CachePut
     @PatchMapping("/update")
     public ResponseEntity<Map<String, UserGetDto>>updateUser(@RequestParam String id, @RequestBody UserCreateDto userCreateDto){
-        Long Id=Long.parseLong(id);
-        User user= userUpdateConverter.doConvert(userCreateDto, Id);
+        User user= userUpdateConverter.doConvert(userCreateDto, Long.parseLong(id));
         return new ResponseEntity<>(
                 Collections.singletonMap(
                         "Updated user:", userMapper.toDto(userService.updateUser(user))), HttpStatus.OK

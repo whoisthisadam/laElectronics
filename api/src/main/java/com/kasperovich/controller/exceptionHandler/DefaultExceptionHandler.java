@@ -16,9 +16,12 @@ import java.util.*;
 @ControllerAdvice
 public class DefaultExceptionHandler {
 
+
+    String strErr="error";
+
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<Map<String, ErrorContainer>> allException(Exception exception){
-        return new ResponseEntity<>(Collections.singletonMap("error", ErrorContainer
+        return new ResponseEntity<>(Collections.singletonMap(strErr, ErrorContainer
                 .builder()
                 .exceptionId(UUIDGenerator.generateUUID())
                 .errorCode(2)
@@ -33,7 +36,7 @@ public class DefaultExceptionHandler {
             NumberFormatException.class,
     })
     public ResponseEntity<Map<String, ErrorContainer>> handledException(Exception exception){
-        return new ResponseEntity<>(Collections.singletonMap("error", ErrorContainer
+        return new ResponseEntity<>(Collections.singletonMap(strErr, ErrorContainer
                 .builder()
                 .exceptionId(UUIDGenerator.generateUUID())
                 .errorCode(2)
@@ -56,7 +59,7 @@ public class DefaultExceptionHandler {
                         .errorMessage(e.getMessage())
                         .e(e.getClass().toString())
                         .build();
-        return new ResponseEntity<>(Collections.singletonMap("error", error), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(Collections.singletonMap(e, error), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)

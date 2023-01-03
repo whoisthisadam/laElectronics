@@ -22,7 +22,6 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import com.kasperovich.repository.RoleRepository;
 
 import java.util.Collections;
 import java.util.List;

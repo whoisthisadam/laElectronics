@@ -6,7 +6,6 @@ import com.kasperovich.exception.BadPasswordException;
 import com.kasperovich.mapping.converters.discount.DiscountGetConverter;
 import com.kasperovich.mapping.mappers.UserMapper;
 import com.kasperovich.models.User;
-import com.kasperovich.repository.RoleRepository;
 import com.kasperovich.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
