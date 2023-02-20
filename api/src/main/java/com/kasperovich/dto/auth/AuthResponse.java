@@ -9,13 +9,11 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AuthResponse {
 
+    String userNameOrEmail;
     String token;
 
     final String type="Bearer";
 
-    public AuthResponse(String token) {
-        this.token = token;
-    }
     //     String login;
 //
 //    String email;

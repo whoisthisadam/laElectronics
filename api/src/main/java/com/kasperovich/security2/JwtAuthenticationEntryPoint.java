@@ -1,4 +1,4 @@
-package com.kasperovich.security;
+package com.kasperovich.security2;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

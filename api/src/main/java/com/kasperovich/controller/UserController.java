@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
 @RequestMapping("data/users")
 @RequiredArgsConstructor
 @Tag(name = "Users")
-@CacheConfig(cacheNames = "data")
+@CacheConfig(cacheNames = "users")
 public class UserController {
 
     private final UserService userService;
@@ -134,7 +134,7 @@ public class UserController {
     })
     @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     @CacheEvict
-    @PatchMapping("/delete")
+    @PatchMapping("/admin/delete")
     public ResponseEntity<String>deleteUser(@RequestParam String id){
         Long iD=Long.parseLong(id);
         userService.deleteUser(iD);
