@@ -42,6 +42,6 @@ spring:
 ---
 
 jwt:
-  secret: qwepuisdhfaksdjflsdfn12321___**
+  secret: eASiRIVDCbLaCSSSvuFLr4H12PmcJDPiiLKgnFNoRfygRnaLeO4gfDyfD1z68S2
   expiration: 600000
 

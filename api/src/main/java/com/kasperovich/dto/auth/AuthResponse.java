@@ -11,10 +11,15 @@ public class AuthResponse {
 
     String token;
 
-    String login;
+    final String type="Bearer";
 
-    String email;
-
-    Roles roleName;
+    public AuthResponse(String token) {
+        this.token = token;
+    }
+    //     String login;
+//
+//    String email;
+//
+//    Roles roleName;
 
 }
