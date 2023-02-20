@@ -1,13 +1,13 @@
 package com.kasperovich.models;
 
 import com.kasperovich.enums.Discounts;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.*;
-import javax.validation.constraints.Max;
+import javax.validation.constraints.*;
 import javax.validation.constraints.Positive;
 import java.util.Set;
 

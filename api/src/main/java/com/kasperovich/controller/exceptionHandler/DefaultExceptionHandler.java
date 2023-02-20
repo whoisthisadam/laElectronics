@@ -3,6 +3,7 @@ package com.kasperovich.controller.exceptionHandler;
 import com.kasperovich.exception.BadPasswordException;
 import com.kasperovich.exception.NotDeletableStatusException;
 import com.kasperovich.util.UUIDGenerator;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -10,11 +11,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import javax.persistence.EntityNotFoundException;
-import java.util.*;
+import java.util.Collections;
+import java.util.Map;
+import java.util.NoSuchElementException;
 
 @ControllerAdvice
-public class DefaultExceptionHandler {
+public class
+
+DefaultExceptionHandler {
 
 
     String strErr="error";

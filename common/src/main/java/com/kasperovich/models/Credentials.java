@@ -1,10 +1,9 @@
 package com.kasperovich.models;
 
 
+import jakarta.persistence.Embeddable;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import javax.persistence.Embeddable;
 
 @Data
 @Embeddable

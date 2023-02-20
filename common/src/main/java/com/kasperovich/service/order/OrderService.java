@@ -8,12 +8,12 @@ import java.util.List;
 
 public interface OrderService {
 
-    public List<Order> findAll();
+    List<Order> findAll();
 
-    public Order createOrder(Order order);
+    Order createOrder(Order order);
 
-    public Order updateOrder(Order order);
+    Order updateOrder(Order order);
 
-    public Order deleteOrder(Long id) throws NotDeletableStatusException;
+    Order deleteOrder(Long id) throws NotDeletableStatusException;
 
 }

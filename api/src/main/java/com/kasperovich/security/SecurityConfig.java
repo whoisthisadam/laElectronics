@@ -1,89 +1,46 @@
 package com.kasperovich.security;
 
-import com.kasperovich.security.filter.AuthenticationTokenFilter;
-import com.kasperovich.security.jwt.JwtTokenHelper;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.SecurityFilterChain;
 
-@RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-    private final UserDetailsService userProvider;
-
-    private final JwtTokenHelper tokenUtils;
-
-    private final PasswordEncoder passwordEncoder;
-
-    @Autowired
-    public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder
-                .userDetailsService(userProvider)
-                .passwordEncoder(passwordEncoder);
-    }
+public class SecurityConfig {
 
     @Bean
-    public AuthenticationTokenFilter authenticationTokenFilterBean(AuthenticationManager authenticationManager) throws Exception {
-        AuthenticationTokenFilter authenticationTokenFilter = new AuthenticationTokenFilter(tokenUtils, userProvider);
-        authenticationTokenFilter.setAuthenticationManager(authenticationManager);
-        return authenticationTokenFilter;
-    }
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        // http basic authentication
+        http
+                .csrf().disable() // disable csrf
+                .authorizeHttpRequests((authorize) ->
+                        authorize.requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll() // permit all get requests
+                                .requestMatchers("/api/v1/auth/**").permitAll() // permit all auth requests
+                                .requestMatchers("/swagger", "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
+                                .requestMatchers("/data/**").permitAll()
+                                .requestMatchers("/auth/**").permitAll()
+                                .requestMatchers("/v3/api-docs/**", "/configuration/ui/**", "/swagger-resources/**", "/configuration/security/**", "/swagger-ui/**", "/webjars/**").permitAll()
+                                .requestMatchers("/actuator/**").permitAll()
+                                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                                .requestMatchers("/guest/**").permitAll()
+                                .requestMatchers("/registration/**").permitAll()
+                                .requestMatchers("/authentication/**").permitAll()
+                                .requestMatchers("/admin/**").hasAnyRole("ADMIN", "MODERATOR")
+                                .anyRequest().authenticated() // all other requests must be authenticated
+                ); // disable session creation
 
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+//        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-    @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .csrf()
-                .disable()
-                .exceptionHandling()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers("/v3/api-docs/**", "/configuration/ui/**", "/swagger-resources/**", "/configuration/security/**", "/swagger-ui/**", "/webjars/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll()
-                .antMatchers("/actuator/**").permitAll()
-                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .antMatchers("/guest/**").permitAll()
-                .antMatchers("/registration/**").permitAll()
-                .antMatchers("/authentication/**").permitAll()
-                .antMatchers("/auth/**").permitAll()
-                .antMatchers("/data/**").permitAll()
-                .antMatchers("/admin/**").hasAnyRole("ADMIN", "MODERATOR")
-                .anyRequest()
-                .authenticated();
-
-//         Custom JWT based authentication
-        httpSecurity
-                .addFilterBefore(authenticationTokenFilterBean(authenticationManagerBean()), UsernamePasswordAuthenticationFilter.class);
+        return http.build();
     }
-
-    //For swagger access only
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring()
-                .antMatchers("/v3/api-docs", "/configuration/ui/**", "/swagger-resources/**", "/configuration/security/**", "/swagger-ui.html", "/webjars/**");
-    }
+//
+//    @Bean
+//    public AuthenticationManager authenticationManager(
+//            AuthenticationConfiguration authenticationConfiguration) throws Exception {
+//        return authenticationConfiguration.getAuthenticationManager();
+//    }
 }

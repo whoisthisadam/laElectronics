@@ -1,9 +1,9 @@
 package com.kasperovich.models;
 
+import jakarta.persistence.Embeddable;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.Embeddable;
 import java.sql.Timestamp;
 
 @Data

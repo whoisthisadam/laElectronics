@@ -4,11 +4,11 @@ import com.kasperovich.dto.users.UserCreateDto;
 import com.kasperovich.mapping.mappers.AddressMapper;
 import com.kasperovich.models.User;
 import com.kasperovich.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 @Component

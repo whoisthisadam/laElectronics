@@ -7,12 +7,13 @@ import com.kasperovich.models.Edit;
 import com.kasperovich.models.Order;
 import com.kasperovich.repository.OrderRepository;
 import com.kasperovich.repository.PaymentRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
+
 import javax.validation.Valid;
 import java.sql.Timestamp;
 import java.util.Date;

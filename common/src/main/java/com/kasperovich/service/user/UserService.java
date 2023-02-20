@@ -7,12 +7,12 @@ import java.util.List;
 
 public interface UserService {
 
-    public User createUser(User user) throws BadPasswordException;
+    User createUser(User user) throws BadPasswordException;
 
-    public List<User> findAll();
+    List<User> findAll();
 
-    public User updateUser(User user);
+    User updateUser(User user);
 
-    public User deleteUser(Long id);
+    User deleteUser(Long id);
 
 }

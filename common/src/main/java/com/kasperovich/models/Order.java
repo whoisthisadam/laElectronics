@@ -1,12 +1,13 @@
 package com.kasperovich.models;
 
 import com.kasperovich.enums.OrderStatus;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.*;
+import javax.validation.constraints.Positive;
 import java.util.Set;
 
 @Data
@@ -16,6 +17,7 @@ import java.util.Set;
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "order_details")
+
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +29,7 @@ public class Order {
     User user;
 
     @Column(name = "total")
-//    @Positive
+    @Positive
     Long total;
 
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)

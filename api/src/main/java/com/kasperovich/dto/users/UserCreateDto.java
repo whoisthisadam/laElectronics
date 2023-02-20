@@ -2,11 +2,11 @@ package com.kasperovich.dto.users;
 
 import com.kasperovich.dto.address.AddressCreateDto;
 import com.kasperovich.models.Credentials;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
-import javax.validation.constraints.NotBlank;
 
 
 @Data

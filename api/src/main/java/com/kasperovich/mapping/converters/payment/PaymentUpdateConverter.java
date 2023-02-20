@@ -4,12 +4,12 @@ import com.kasperovich.dto.payment.PaymentCreateDto;
 import com.kasperovich.models.Edit;
 import com.kasperovich.models.Payment;
 import com.kasperovich.repository.PaymentRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityNotFoundException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Optional;

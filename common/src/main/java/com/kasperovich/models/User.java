@@ -3,10 +3,10 @@ package com.kasperovich.models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -41,33 +41,27 @@ public class User {
 
     @Column(name = "last_name")
     @NotBlank
-    @Size(max=30)
+    @Size(max = 30)
     String lastName;
 
     @Column(name = "mobile_phone")
     @NotBlank
-    @Size(max=15)
+    @Size(max = 15)
     String mobilePhone;
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name="creationDate", column = @Column(name = "creation_date")),
+            @AttributeOverride(name = "creationDate", column = @Column(name = "creation_date")),
             @AttributeOverride(name = "modificationDate", column = @Column(name = "modification_date"))
     })
-    Edit editData=new Edit(new Timestamp(new Date().getTime()), null);
-
-//    @Column(name = "creation_date")
-//    Timestamp creationDate=new Timestamp(new Date().getTime());
-//
-//    @Column(name = "modification_date")
-//    Timestamp modificationDate;
+    Edit editData = new Edit(new Timestamp(new Date().getTime()), null);
 
     @Column(name = "is_deleted")
-    Boolean isDeleted=false;
+    Boolean isDeleted = false;
 
     @Column(name = "email")
     @Email
-    @Size(max=100)
+    @Size(max = 100)
     String email;
 
     @ManyToOne
@@ -84,6 +78,6 @@ public class User {
     Role role;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    Set<Order>orders;
-
+    Set<Order> orders;
 }
+

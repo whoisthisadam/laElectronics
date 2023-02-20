@@ -2,11 +2,10 @@ package com.kasperovich.models;
 
 import com.kasperovich.enums.PaymentProviders;
 import com.kasperovich.enums.PaymentStatus;
+import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.persistence.*;
 
 @Getter
 @Setter

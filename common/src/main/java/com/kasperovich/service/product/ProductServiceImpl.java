@@ -5,10 +5,10 @@ import com.kasperovich.exception.NotDeletableStatusException;
 import com.kasperovich.models.Edit;
 import com.kasperovich.models.Product;
 import com.kasperovich.repository.ProductRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.sql.Timestamp;
 import java.util.Date;

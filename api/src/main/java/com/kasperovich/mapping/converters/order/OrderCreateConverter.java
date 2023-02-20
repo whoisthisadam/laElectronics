@@ -6,12 +6,12 @@ import com.kasperovich.models.Edit;
 import com.kasperovich.models.Order;
 import com.kasperovich.repository.ProductRepository;
 import com.kasperovich.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityNotFoundException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.stream.Collectors;

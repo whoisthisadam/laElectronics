@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface DiscountService {
 
-    public List<Discount> findAll();
+    List<Discount> findAll();
 
-    public Discount createDiscount(Discount discount);
+    Discount createDiscount(Discount discount);
 
-    public Discount deleteDiscount(Long id);
+    Discount deleteDiscount(Long id);
 
 
 }
