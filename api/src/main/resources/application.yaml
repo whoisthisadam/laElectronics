@@ -3,15 +3,12 @@ spring:
     enabled: true
     baseline-on-migrate: true
     baseline-description: Flyway Scripts
-#    locations: filesystem:./common/src/main/resources/db/migration
     user: ${spring.datasource.username}
     password: ${spring.datasource.password}
     url: ${spring.datasource.url}
-    #    default-schema: boots
     out-of-order: true
     ignore-migration-patterns: '*:ignored'
     schemas: boots
-
   datasource:
     driver-class-name: org.postgresql.Driver
     username: postgres
@@ -19,9 +16,6 @@ spring:
     url: "jdbc:postgresql://localhost:5432/desoccer"
     dbcp2:
       default-schema: boots
-
-
-
   jpa:
     hibernate:
       ddl-auto: update
@@ -29,7 +23,6 @@ spring:
     database: postgresql
     generate-ddl: true
     defer-datasource-initialization: false
-
   sql:
     init:
       platform: postgres
@@ -38,8 +31,6 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
-
----
 
 jwt:
   secret: qwepuisdhfaksdjflsdfn12321___**
