@@ -16,11 +16,18 @@ import java.util.Set;
 })
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "roles")
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     Long id;
+
+    public Role(Roles name) {
+        this.name = name;
+    }
 
     @Column
     @Enumerated(EnumType.STRING)
@@ -29,5 +36,7 @@ public class Role {
     @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
     @JsonIgnore
     Set<User>users;
+
+
 
 }

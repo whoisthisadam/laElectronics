@@ -17,6 +17,9 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(exclude = "orders")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "users")
@@ -79,5 +82,16 @@ public class User {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     Set<Order> orders;
+
+    public User(User expectedUser) {
+
+    }
+
+    public void setPassword(String password){
+        this.getCredentials().setPassword(password);
+    }
+    public void setLogin(String login){
+        this.getCredentials().setLogin(login);
+    }
 }
 

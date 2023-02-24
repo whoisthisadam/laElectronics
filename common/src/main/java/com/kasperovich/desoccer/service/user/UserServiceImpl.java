@@ -52,9 +52,6 @@ public class UserServiceImpl implements UserService{
         }
         else{
             user.setRole(roleService.findRoleByName(Roles.ROLE_USER_AUTHORIZED));
-        }
-
-        if(user.getCredentials()!=null){
             if(!new ValidCheck().isPasswordValid(user.getCredentials().getPassword())){
                 throw new BadPasswordException("Password must include at least one capital, or number, or symbol");
             }
@@ -62,9 +59,7 @@ public class UserServiceImpl implements UserService{
             user.setCredentials(new Credentials(user.getCredentials().getLogin(), encoder.encode(user.getCredentials().getPassword())));
         }
 
-
         addressRepository.save(user.getAddress());
-
         return userRepository.save(user);
     }
 
@@ -84,7 +79,9 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User deleteUser(Long id) {
-        User user=userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        User user=userRepository.findById(id).orElseThrow(
+                ()->new EntityNotFoundException("User with this ID does not exist!")
+        );
         user.setIsDeleted(true);
         return userRepository.save(user);
     }

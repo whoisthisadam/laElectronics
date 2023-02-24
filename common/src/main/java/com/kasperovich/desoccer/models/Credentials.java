@@ -6,6 +6,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Data
+@Setter
 @Embeddable
 @Builder
 @AllArgsConstructor
