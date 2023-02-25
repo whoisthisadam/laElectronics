@@ -51,20 +51,19 @@ class UserServiceTest {
     PasswordEncoder encoder;
 
     @Captor
-    ArgumentCaptor<Address>addressArgumentCaptor;
+    ArgumentCaptor<Address> addressArgumentCaptor;
 
     UserService userService;
 
     @BeforeEach
-    public void setup()
-    {
+    public void setup() {
         userService = new UserServiceImpl(userRepository, discountRepository, addressRepository, roleRepository, roleService, new BCryptPasswordEncoder());
     }
 
 
     @Test
     void updateUser() {
-        encoder=new BCryptPasswordEncoder();
+        encoder = new BCryptPasswordEncoder();
         User expectedUser = User
                 .builder()
                 .id(133L)
@@ -85,7 +84,7 @@ class UserServiceTest {
                 .orders(new HashSet<>())
                 .build();
 
-        User user=User
+        User user = User
                 .builder()
                 .id(133L)
                 .firstName("Test")
@@ -105,32 +104,32 @@ class UserServiceTest {
                 .orders(new HashSet<>())
                 .build();
         when(userRepository.save(user)).thenReturn(expectedUser);
-        User actualUser=userService.updateUser(user);
+        User actualUser = userService.updateUser(user);
         Assertions.assertThat(new Timestamp(new Date().getTime())).isCloseTo(actualUser.getEditData().getModificationDate(), 100);
         Assertions.assertThat(actualUser).isEqualTo(expectedUser);
-        Assertions.assertThat(encoder.matches("password",user.getCredentials().getPassword())).isTrue();
+        Assertions.assertThat(encoder.matches("password", user.getCredentials().getPassword())).isTrue();
     }
 
     @Test
     @DisplayName("Should throw exception when Id is not exist in DB")
     public void deleteUserHasToThrowExceptionWhenIdIsNotExisting() {
 
-        Long id=199998L;
+        Long id = 199998L;
         when(userRepository.findById(id)).thenReturn(Optional.empty());
-        org.junit.jupiter.api.Assertions.assertThrows(EntityNotFoundException.class, ()->userService.deleteUser(id));
+        org.junit.jupiter.api.Assertions.assertThrows(EntityNotFoundException.class, () -> userService.deleteUser(id));
 
     }
 
     @Test
     @DisplayName("Should set IS_DELETED=TRUE when deleting a user")
-    public void shouldSetIsDeletedToTrueWhenDeletingUser(){
+    public void shouldSetIsDeletedToTrueWhenDeletingUser() {
         User user = User
                 .builder()
                 .id(133L)
                 .firstName("Test")
                 .lastName("Case")
                 .credentials(
-                        new Credentials("login", "password")
+                        new Credentials("login", "password78675")
                 )
                 .mobilePhone("+18927221")
                 .editData(
@@ -147,7 +146,7 @@ class UserServiceTest {
         when(userRepository.findById(41L)).thenReturn(Optional.of(user));
         when(userRepository.save(user)).thenReturn(user);
 
-        User actualUser=userService.deleteUser(41L);
+        User actualUser = userService.deleteUser(41L);
 
         Assertions.assertThat(actualUser).isEqualTo(user);
         Assertions.assertThat(actualUser.getIsDeleted()).isTrue();
@@ -188,8 +187,51 @@ class UserServiceTest {
                         .build()
         );
         when(userRepository.save(user)).thenReturn(user);
-        User actualUser=userService.createUser(user);
+        User actualUser = userService.createUser(user);
         Assertions.assertThat(actualUser.getRole().getName()).isEqualTo(Roles.ROLE_USER_NOT_AUTHORIZED);
+        Assertions.assertThat(actualUser.getUserDiscount()).isNull();
         verify(addressRepository, times(1)).save(addressArgumentCaptor.capture());
     }
+
+    @Test
+    public void shouldThrowExceptionWhenPasswordIsInvalid() throws BadPasswordException {
+        User user = User
+                .builder()
+                .id(133L)
+                .firstName("Test")
+                .lastName("Case")
+                .mobilePhone("+18927221")
+                .credentials(
+                        new Credentials("login", "password")
+                )
+                .editData(
+                        new Edit(new Timestamp(new Date().getTime()), null)
+                )
+                .isDeleted(false)
+                .email("testemail@gmail.com")
+                .address(Address
+                        .builder()
+                        .id(1L)
+                        .lineOne("1")
+                        .lineTwo("Main")
+                        .lineThree("Street")
+                        .city("NYC")
+                        .province("New York")
+                        .country("US")
+                        .users(new HashSet<>())
+                        .build())
+                .orders(new HashSet<>())
+                .build();
+        when(roleService.findRoleByName(Roles.ROLE_USER_AUTHORIZED)).thenReturn(
+                Role
+                        .builder()
+                        .id(1L)
+                        .name(Roles.ROLE_USER_AUTHORIZED)
+                        .users(new HashSet<>(Collections.singletonList(user)))
+                        .build()
+        );
+        Exception exception=org.junit.jupiter.api.Assertions.assertThrows(BadPasswordException.class, () -> userService.createUser(user));
+        Assertions.assertThat(exception.getMessage()).isEqualTo("Password must include at least one capital, or number, or symbol");
+    }
+
 }
