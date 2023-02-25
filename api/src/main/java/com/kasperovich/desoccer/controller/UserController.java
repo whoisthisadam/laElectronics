@@ -2,6 +2,7 @@ package com.kasperovich.desoccer.controller;
 
 import com.kasperovich.desoccer.dto.users.UserCreateDto;
 import com.kasperovich.desoccer.dto.users.UserGetDto;
+import com.kasperovich.desoccer.exception.BadPasswordException;
 import com.kasperovich.desoccer.mapping.converters.discount.DiscountGetConverter;
 import com.kasperovich.desoccer.mapping.converters.user.UserUpdateConverter;
 import com.kasperovich.desoccer.mapping.mappers.UserMapper;
@@ -107,7 +108,7 @@ public class UserController {
     @Transactional
     @CachePut
     @PatchMapping("/update")
-    public ResponseEntity<Map<String, UserGetDto>>updateUser(@RequestParam String id, @RequestBody UserCreateDto userCreateDto){
+    public ResponseEntity<Map<String, UserGetDto>>updateUser(@RequestParam String id, @RequestBody UserCreateDto userCreateDto) throws BadPasswordException {
         User user= userUpdateConverter.doConvert(userCreateDto, Long.parseLong(id));
         return new ResponseEntity<>(
                 Collections.singletonMap(

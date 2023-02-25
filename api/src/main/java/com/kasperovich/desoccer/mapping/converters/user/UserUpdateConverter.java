@@ -1,9 +1,11 @@
 package com.kasperovich.desoccer.mapping.converters.user;
 
 import com.kasperovich.desoccer.dto.users.UserCreateDto;
+import com.kasperovich.desoccer.exception.BadPasswordException;
 import com.kasperovich.desoccer.mapping.mappers.AddressMapper;
 import com.kasperovich.desoccer.models.User;
 import com.kasperovich.desoccer.repository.UserRepository;
+import com.kasperovich.desoccer.util.ValidCheck;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
@@ -19,13 +21,19 @@ public class UserUpdateConverter implements Converter<UserCreateDto, User> {
 
     private final AddressMapper addressMapper;
 
+    private final ValidCheck validCheck;
+
 
     @Override
     public User convert(UserCreateDto userCreateDto) {
         return null;
     }
 
-    public User doConvert(UserCreateDto userCreateDto, Long id) throws EntityNotFoundException {
+    public User doConvert(UserCreateDto userCreateDto, Long id) throws EntityNotFoundException, BadPasswordException {
+        if(!userCreateDto.getCredentials().getPassword().isEmpty()&&
+                !validCheck.isPasswordValid(userCreateDto.getCredentials().getPassword())){
+            throw new BadPasswordException("Password must include at least one capital, or number, or symbol");
+        }
         User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User with this ID does not exist!"));
         user.setId(id);
         user.setCredentials(
