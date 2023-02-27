@@ -37,6 +37,9 @@ public class Address {
     @Column(name = "province")
     String province;
 
+    @Column(name = "postcode")
+    String postcode;
+
     @Column(name = "country")
     String country;
 

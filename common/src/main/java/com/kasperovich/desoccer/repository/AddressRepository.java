@@ -4,4 +4,7 @@ import com.kasperovich.desoccer.models.Address;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AddressRepository extends JpaRepository<Address, Long> {
+
+    Address findByPostcode(String postcode);
+
 }
