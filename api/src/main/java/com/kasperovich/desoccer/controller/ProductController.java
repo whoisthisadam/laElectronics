@@ -32,7 +32,7 @@ import java.util.*;
 @RestController
 @Validated
 @Slf4j
-@RequestMapping("data/products")
+@RequestMapping("/data/products")
 @RequiredArgsConstructor
 @Tag(name = "Products")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
