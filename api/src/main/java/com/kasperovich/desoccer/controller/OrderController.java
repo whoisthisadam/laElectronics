@@ -76,7 +76,7 @@ public class OrderController {
             summary = "Find all orders(Admin only)",
             responses = {
                     @ApiResponse(
-                            responseCode = "200",
+                          responseCode = "200",
                             description = "Found",
                             content = {
                                     @Content(

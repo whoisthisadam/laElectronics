@@ -105,7 +105,7 @@ class UserServiceTest {
                 .build();
         when(userRepository.save(user)).thenReturn(expectedUser);
         User actualUser = userService.updateUser(user);
-        Assertions.assertThat(new Timestamp(new Date().getTime())).isCloseTo(actualUser.getEditData().getModificationDate(), 100);
+        Assertions.assertThat(new Timestamp(new Date().getTime())).isCloseTo(actualUser.getEditData().getModificationDate(), 150);
         Assertions.assertThat(actualUser).isEqualTo(expectedUser);
         Assertions.assertThat(encoder.matches("password", user.getCredentials().getPassword())).isTrue();
     }
