@@ -2,9 +2,7 @@ package com.kasperovich.desoccer.models;
 
 import com.kasperovich.desoccer.enums.Discounts;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.*;
@@ -18,6 +16,9 @@ import java.util.Set;
 })
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "discount")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Discount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,12 +1,14 @@
 package com.kasperovich.desoccer.dto.users;
 
 import com.kasperovich.desoccer.dto.discount.DiscountGetDto;
-import lombok.AccessLevel;
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserGetDto {
 
     Long id;

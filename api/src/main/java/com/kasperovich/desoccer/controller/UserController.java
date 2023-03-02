@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 @RestController
 @Validated
 @Slf4j
-@RequestMapping("data/users")
+@RequestMapping("/data/users")
 @RequiredArgsConstructor
 @Tag(name = "Users")
 @CacheConfig(cacheNames = "users")
@@ -68,8 +68,8 @@ public class UserController {
                 required = true,
                 description = "JWT Token, can be generated in auth controller /auth")
     })
-    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
-    @GetMapping
+    @PreAuthorize(value = "hasRole('ADMIN')")
+    @GetMapping("/all")
     @Cacheable
     public ResponseEntity<List<UserGetDto>>findAll(){
         List<User>users=userService.findAll();
@@ -104,7 +104,7 @@ public class UserController {
                     required = true,
                     description = "JWT Token, can be generated in auth controller /auth")
     })
-    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
+    @PreAuthorize(value = "hasRole('ADMIN')")
     @Transactional
     @CachePut
     @PatchMapping("/update")
@@ -133,7 +133,7 @@ public class UserController {
                     required = true,
                     description = "JWT Token, can be generated in auth controller /auth")
     })
-    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
+    @PreAuthorize(value = "hasRole('ADMIN')")
     @CacheEvict
     @PatchMapping("/admin/delete")
     public ResponseEntity<String>deleteUser(@RequestParam String id){

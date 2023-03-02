@@ -63,7 +63,7 @@ public class RolesController {
                     required = true,
                     description = "JWT Token, can be generated in auth controller /auth")
     })
-    @Secured({"ROLE_ADMIN", "ROLE_MODERATOR"})
+    @Secured({"ADMIN", "MODERATOR"})
     @GetMapping
     public ResponseEntity<List<RoleGetDto>> findAll() {
         List<RoleGetDto> roleResponseList = roleListMapper.toResponsesList(roleService.findAll());
@@ -89,7 +89,7 @@ public class RolesController {
                     required = true,
                     description = "JWT Token, can be generated in auth controller /auth")
     })
-    @Secured("ROLE_ADMIN")
+    @Secured("ADMIN")
     @DeleteMapping
     public ResponseEntity<String> deleteById(@RequestParam String id) {
         return new ResponseEntity<>("Role with ID number " + roleService.deleteById(Long.parseLong(id)) + " deleted",
@@ -116,7 +116,7 @@ public class RolesController {
                     required = true,
                     description = "JWT Token, can be generated in auth controller /auth")
     })
-    @Secured("ROLE_ADMIN")
+    @Secured("ADMIN")
     @PostMapping
     @Transactional
     public ResponseEntity<Map<String, RoleGetDto>> createRole(@RequestBody RoleCreateDto roleCreateDto) {

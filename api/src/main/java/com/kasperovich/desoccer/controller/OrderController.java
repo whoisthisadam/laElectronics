@@ -91,7 +91,7 @@ public class OrderController {
                     required = true,
                     description = "JWT Token, can be generated in auth controller /auth")
     })
-    @Secured("ROLE_ADMIN")
+    @Secured("ADMIN")
     @GetMapping
     public ResponseEntity<List<OrderGetDto>> findAll() {
         List<OrderGetDto> list = orderService.findAll().stream().map(orderGetConverter::convert).collect(Collectors.toList());
@@ -118,7 +118,7 @@ public class OrderController {
                     description = "JWT Token, can be generated in auth controller /auth")
     })
     @Transactional
-    @Secured({"ROLE_ADMIN", "ROLE_MODERATOR"})
+    @Secured({"ADMIN", "MODERATOR"})
     @PatchMapping("/update")
     public ResponseEntity<Map<String, OrderGetDto>> updateOrder(@RequestBody OrderUpdateDto orderUpdateDto,
                                                                 @RequestParam String id) throws Exception {
@@ -146,7 +146,7 @@ public class OrderController {
                     required = true,
                     description = "JWT Token, can be generated in auth controller /auth")
     })
-    @Secured("ROLE_ADMIN")
+    @Secured("ADMIN")
     @PatchMapping("/delete")
     public ResponseEntity<String> deleteOrder(@RequestParam String ID) throws NotDeletableStatusException {
         orderService.deleteOrder(Long.parseLong(ID));

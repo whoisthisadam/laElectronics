@@ -82,7 +82,7 @@ public class ProductController {
                     required = true,
                     description = "JWT Token, can be generated in auth controller /auth")
     })
-    @Secured({"ROLE_ADMIN","ROLE_MODERATOR"})
+    @Secured({"ADMIN","MODERATOR"})
     @Transactional
     @PostMapping
     public ResponseEntity<Map<String,ProductGetDto> >createProduct(@RequestBody ProductCreateDto productCreateDto){
@@ -111,7 +111,7 @@ public class ProductController {
                     required = true,
                     description = "JWT Token, can be generated in auth controller /auth")
     })
-    @Secured({"ROLE_ADMIN","ROLE_MODERATOR"})
+    @Secured({"ADMIN","MODERATOR"})
     @Transactional
     @PatchMapping("/update")
     public ResponseEntity<Map<String, ProductGetDto>>updateProduct(@RequestParam String id,@RequestBody ProductCreateDto productCreateDto){
@@ -139,7 +139,7 @@ public class ProductController {
                     required = true,
                     description = "JWT Token, can be generated in auth controller /auth")
     })
-    @Secured("ROLE_ADMIN")
+    @Secured("ADMIN")
     @PatchMapping("/delete")
     public ResponseEntity<String>deleteProduct(@RequestParam(value = "ID") String idStr) throws NotDeletableStatusException {
         Long id=Long.parseLong(idStr);

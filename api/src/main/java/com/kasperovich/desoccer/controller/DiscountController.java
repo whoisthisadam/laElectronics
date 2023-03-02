@@ -61,7 +61,7 @@ public class DiscountController {
                     required = true,
                     description = "JWT Token, can be generated in auth controller /auth")
     })
-    @Secured({"ROLE_ADMIN", "ROLE_MODERATOR"})
+    @Secured({"ADMIN", "MODERATOR"})
     @Transactional
     @PostMapping
     public ResponseEntity<Map<String, DiscountGetDto>> createDiscount(@RequestBody DiscountCreateDto discountCreateDto) {
@@ -89,7 +89,7 @@ public class DiscountController {
                     required = true,
                     description = "JWT Token, can be generated in auth controller /auth")
     })
-    @Secured({"ROLE_ADMIN", "ROLE_MODERATOR"})
+    @Secured({"ADMIN", "MODERATOR"})
     @GetMapping
     public ResponseEntity<List<DiscountGetDto>> findAllDiscount() {
         List<DiscountGetDto> list = discountService.findAll()
@@ -116,7 +116,7 @@ public class DiscountController {
                     required = true,
                     description = "JWT Token, can be generated in auth controller /auth")
     })
-    @Secured("ROLE_ADMIN")
+    @Secured("ADMIN")
     @PatchMapping
     public ResponseEntity<String> deleteDiscount(@RequestParam String id) {
         discountService.deleteDiscount(Long.parseLong(id));
