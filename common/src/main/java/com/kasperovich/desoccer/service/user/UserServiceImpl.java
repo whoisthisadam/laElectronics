@@ -48,10 +48,10 @@ public class UserServiceImpl implements UserService{
     public User createUser(@Valid User user) throws BadPasswordException {
 
         if(user.getCredentials()==null){
-            user.setRole(roleService.findRoleByName(Roles.ROLE_USER_NOT_AUTHORIZED));
+            user.setRole(roleService.findRoleByName(Roles.USER_NOT_AUTHORIZED));
         }
         else{
-            user.setRole(roleService.findRoleByName(Roles.ROLE_USER_AUTHORIZED));
+            user.setRole(roleService.findRoleByName(Roles.USER_AUTHORIZED));
             if(!new ValidCheck().isPasswordValid(user.getCredentials().getPassword())){
                 throw new BadPasswordException("Password must include at least one capital, or number, or symbol");
             }

@@ -55,7 +55,7 @@ class UserRepositoryTestEmbedded {
                 .email("testemail@gmail.com")
                 .userDiscount(discountRepository.findDiscountsByName(Discounts.LOGIN_DISCOUNT))
                 .address(addressRepository.findByPostcode("10001"))
-                .role(roleRepository.findAllByName(Roles.ROLE_USER_AUTHORIZED))
+                .role(roleRepository.findAllByName(Roles.USER_AUTHORIZED))
                 .orders(new HashSet<>())
                 .build();
     }

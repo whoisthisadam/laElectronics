@@ -80,7 +80,7 @@ class UserServiceTest {
                 .email("testemail@gmail.com")
                 .userDiscount(new Discount())
                 .address(new Address())
-                .role(new Role(Roles.ROLE_USER_AUTHORIZED))
+                .role(new Role(Roles.USER_AUTHORIZED))
                 .orders(new HashSet<>())
                 .build();
 
@@ -100,7 +100,7 @@ class UserServiceTest {
                 .email("testemail@gmail.com")
                 .userDiscount(new Discount())
                 .address(new Address())
-                .role(new Role(Roles.ROLE_USER_AUTHORIZED))
+                .role(new Role(Roles.USER_AUTHORIZED))
                 .orders(new HashSet<>())
                 .build();
         when(userRepository.save(user)).thenReturn(expectedUser);
@@ -139,7 +139,7 @@ class UserServiceTest {
                 .email("testemail@gmail.com")
                 .userDiscount(new Discount())
                 .address(new Address())
-                .role(new Role(Roles.ROLE_USER_AUTHORIZED))
+                .role(new Role(Roles.USER_AUTHORIZED))
                 .orders(new HashSet<>())
                 .build();
 
@@ -178,17 +178,17 @@ class UserServiceTest {
                         .build())
                 .orders(new HashSet<>())
                 .build();
-        when(roleService.findRoleByName(Roles.ROLE_USER_NOT_AUTHORIZED)).thenReturn(
+        when(roleService.findRoleByName(Roles.USER_NOT_AUTHORIZED)).thenReturn(
                 Role
                         .builder()
                         .id(1L)
-                        .name(Roles.ROLE_USER_NOT_AUTHORIZED)
+                        .name(Roles.USER_NOT_AUTHORIZED)
                         .users(new HashSet<>(Collections.singletonList(user)))
                         .build()
         );
         when(userRepository.save(user)).thenReturn(user);
         User actualUser = userService.createUser(user);
-        Assertions.assertThat(actualUser.getRole().getName()).isEqualTo(Roles.ROLE_USER_NOT_AUTHORIZED);
+        Assertions.assertThat(actualUser.getRole().getName()).isEqualTo(Roles.USER_NOT_AUTHORIZED);
         Assertions.assertThat(actualUser.getUserDiscount()).isNull();
         verify(addressRepository, times(1)).save(addressArgumentCaptor.capture());
     }
@@ -222,11 +222,11 @@ class UserServiceTest {
                         .build())
                 .orders(new HashSet<>())
                 .build();
-        when(roleService.findRoleByName(Roles.ROLE_USER_AUTHORIZED)).thenReturn(
+        when(roleService.findRoleByName(Roles.USER_AUTHORIZED)).thenReturn(
                 Role
                         .builder()
                         .id(1L)
-                        .name(Roles.ROLE_USER_AUTHORIZED)
+                        .name(Roles.USER_AUTHORIZED)
                         .users(new HashSet<>(Collections.singletonList(user)))
                         .build()
         );
