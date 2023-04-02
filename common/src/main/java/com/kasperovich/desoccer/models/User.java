@@ -83,15 +83,8 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     Set<Order> orders;
 
-    public User(User expectedUser) {
-
-    }
-
     public void setPassword(String password){
         this.getCredentials().setPassword(password);
-    }
-    public void setLogin(String login){
-        this.getCredentials().setLogin(login);
     }
 }
 
