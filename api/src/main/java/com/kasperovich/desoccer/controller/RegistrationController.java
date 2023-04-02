@@ -64,6 +64,7 @@ public class RegistrationController {
     @Transactional
     public ResponseEntity<Map<String, UserGetDto>> addUser(@Valid @RequestBody UserCreateDto userCreateDto) throws BadPasswordException {
         User user = userMapper.toEntity(userCreateDto);
+        user.getAddress().setPostcode(userCreateDto.getAddress().getPostCode());
         UserGetDto userGetDto=userMapper.toDto(userService.createUser(user));
         if(user.getUserDiscount()!=null){
             userGetDto.setDiscount(discountGetConverter.convert(user.getUserDiscount()));
