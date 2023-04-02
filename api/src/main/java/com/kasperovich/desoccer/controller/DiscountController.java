@@ -18,7 +18,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -61,12 +61,13 @@ public class DiscountController {
                     required = true,
                     description = "JWT Token, can be generated in auth controller /auth")
     })
-    @Secured({"ADMIN", "MODERATOR"})
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @Transactional
     @PostMapping
     public ResponseEntity<Map<String, DiscountGetDto>> createDiscount(@RequestBody DiscountCreateDto discountCreateDto) {
         Discount discount = discountCreateConverter.convert(discountCreateDto);
         discountService.createDiscount(discount);
+        assert discount != null;
         return new ResponseEntity<>(Collections.singletonMap("Created discount:", discountGetConverter.convert(discount)), HttpStatus.CREATED);
     }
 
@@ -89,7 +90,7 @@ public class DiscountController {
                     required = true,
                     description = "JWT Token, can be generated in auth controller /auth")
     })
-    @Secured({"ADMIN", "MODERATOR"})
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @GetMapping
     public ResponseEntity<List<DiscountGetDto>> findAllDiscount() {
         List<DiscountGetDto> list = discountService.findAll()
@@ -116,7 +117,7 @@ public class DiscountController {
                     required = true,
                     description = "JWT Token, can be generated in auth controller /auth")
     })
-    @Secured("ADMIN")
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping
     public ResponseEntity<String> deleteDiscount(@RequestParam String id) {
         discountService.deleteDiscount(Long.parseLong(id));

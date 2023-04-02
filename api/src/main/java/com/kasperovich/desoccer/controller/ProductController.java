@@ -22,12 +22,15 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @Validated
@@ -82,7 +85,7 @@ public class ProductController {
                     required = true,
                     description = "JWT Token, can be generated in auth controller /auth")
     })
-    @Secured({"ADMIN","MODERATOR"})
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @Transactional
     @PostMapping
     public ResponseEntity<Map<String,ProductGetDto> >createProduct(@RequestBody ProductCreateDto productCreateDto){
@@ -111,7 +114,7 @@ public class ProductController {
                     required = true,
                     description = "JWT Token, can be generated in auth controller /auth")
     })
-    @Secured({"ADMIN","MODERATOR"})
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @Transactional
     @PatchMapping("/update")
     public ResponseEntity<Map<String, ProductGetDto>>updateProduct(@RequestParam String id,@RequestBody ProductCreateDto productCreateDto){
@@ -139,7 +142,7 @@ public class ProductController {
                     required = true,
                     description = "JWT Token, can be generated in auth controller /auth")
     })
-    @Secured("ADMIN")
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/delete")
     public ResponseEntity<String>deleteProduct(@RequestParam(value = "ID") String idStr) throws NotDeletableStatusException {
         Long id=Long.parseLong(idStr);

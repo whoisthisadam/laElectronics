@@ -23,7 +23,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -91,7 +91,7 @@ public class OrderController {
                     required = true,
                     description = "JWT Token, can be generated in auth controller /auth")
     })
-    @Secured("ADMIN")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<OrderGetDto>> findAll() {
         List<OrderGetDto> list = orderService.findAll().stream().map(orderGetConverter::convert).collect(Collectors.toList());
@@ -118,7 +118,7 @@ public class OrderController {
                     description = "JWT Token, can be generated in auth controller /auth")
     })
     @Transactional
-    @Secured({"ADMIN", "MODERATOR"})
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @PatchMapping("/update")
     public ResponseEntity<Map<String, OrderGetDto>> updateOrder(@RequestBody OrderUpdateDto orderUpdateDto,
                                                                 @RequestParam String id) throws Exception {
@@ -146,11 +146,11 @@ public class OrderController {
                     required = true,
                     description = "JWT Token, can be generated in auth controller /auth")
     })
-    @Secured("ADMIN")
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/delete")
-    public ResponseEntity<String> deleteOrder(@RequestParam String ID) throws NotDeletableStatusException {
-        orderService.deleteOrder(Long.parseLong(ID));
-        return ResponseEntity.ok("Order with ID " + ID + " deleted");
+    public ResponseEntity<String> deleteOrder(@RequestParam String Id) throws NotDeletableStatusException {
+        orderService.deleteOrder(Long.parseLong(Id));
+        return ResponseEntity.ok("Order with ID " + Id + " deleted");
     }
 
 

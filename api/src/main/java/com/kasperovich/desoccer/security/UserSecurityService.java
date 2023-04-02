@@ -27,13 +27,12 @@ public class UserSecurityService implements UserDetailsService {
                 User user = searchResult.get();
 
                 /*We are creating Spring Security User object*/
-
                 return new org.springframework.security.core.userdetails.User(
                         user.getEmail(),
                         user.getCredentials().getPassword(),
 //                        ["ROLE_USER", "ROLE_ADMIN"]
                         AuthorityUtils.commaSeparatedStringToAuthorityList(
-                                user.getRole().getName().toString()+","
+                               "ROLE_"+user.getRole().getName().toString()+","
                         )
                 );
             } else {

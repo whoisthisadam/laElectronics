@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -63,7 +63,7 @@ public class RolesController {
                     required = true,
                     description = "JWT Token, can be generated in auth controller /auth")
     })
-    @Secured({"ADMIN", "MODERATOR"})
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @GetMapping
     public ResponseEntity<List<RoleGetDto>> findAll() {
         List<RoleGetDto> roleResponseList = roleListMapper.toResponsesList(roleService.findAll());
@@ -89,7 +89,7 @@ public class RolesController {
                     required = true,
                     description = "JWT Token, can be generated in auth controller /auth")
     })
-    @Secured("ADMIN")
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping
     public ResponseEntity<String> deleteById(@RequestParam String id) {
         return new ResponseEntity<>("Role with ID number " + roleService.deleteById(Long.parseLong(id)) + " deleted",
@@ -116,7 +116,7 @@ public class RolesController {
                     required = true,
                     description = "JWT Token, can be generated in auth controller /auth")
     })
-    @Secured("ADMIN")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     @Transactional
     public ResponseEntity<Map<String, RoleGetDto>> createRole(@RequestBody RoleCreateDto roleCreateDto) {

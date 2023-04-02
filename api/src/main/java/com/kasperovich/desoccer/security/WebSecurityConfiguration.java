@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+@EnableMethodSecurity
 public class WebSecurityConfiguration {
 
     private final AuthenticationTokenFilter authFilter;
@@ -30,7 +30,7 @@ public class WebSecurityConfiguration {
         // http basic authentication
         http
                 .csrf().disable()
-                .authorizeHttpRequests((authorize) ->
+                .authorizeHttpRequests(authorize ->
                         authorize.requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll() // permit all get requests
                                 .requestMatchers("/api/v1/auth/**").permitAll() // permit all auth requests
                                 .requestMatchers("/swagger", "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
@@ -45,8 +45,8 @@ public class WebSecurityConfiguration {
                                 .requestMatchers("/admin/**").hasAnyRole("ADMIN", "MODERATOR")
                                 .anyRequest().authenticated() // all other requests must be authenticated
                 )
-                .exceptionHandling(exc->exc.authenticationEntryPoint(jwtAuthenticationEntryPoint))
-                .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); //disable session creation
+                .exceptionHandling(exc -> exc.authenticationEntryPoint(jwtAuthenticationEntryPoint))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); //disable session creation
 
         http.addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
 
