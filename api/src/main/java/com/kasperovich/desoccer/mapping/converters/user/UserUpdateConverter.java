@@ -3,6 +3,7 @@ package com.kasperovich.desoccer.mapping.converters.user;
 import com.kasperovich.desoccer.dto.users.UserCreateDto;
 import com.kasperovich.desoccer.exception.BadPasswordException;
 import com.kasperovich.desoccer.mapping.mappers.AddressMapper;
+import com.kasperovich.desoccer.models.Credentials;
 import com.kasperovich.desoccer.models.User;
 import com.kasperovich.desoccer.repository.UserRepository;
 import com.kasperovich.desoccer.util.ValidCheck;
@@ -30,14 +31,18 @@ public class UserUpdateConverter implements Converter<UserCreateDto, User> {
     }
 
     public User doConvert(UserCreateDto userCreateDto, Long id) throws EntityNotFoundException, BadPasswordException {
-        if(!userCreateDto.getCredentials().getPassword().isEmpty()&&
+        Optional<String>newPassword=Optional.ofNullable(userCreateDto.getCredentials().getPassword());
+        if(newPassword.isPresent()&&
                 !validCheck.isPasswordValid(userCreateDto.getCredentials().getPassword())){
             throw new BadPasswordException("Password must include at least one capital, or number, or symbol");
         }
         User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User with this ID does not exist!"));
         user.setId(id);
+        Credentials credentials=new Credentials();
+        credentials.setLogin(Optional.ofNullable(userCreateDto.getCredentials().getLogin()).orElse(user.getCredentials().getLogin()));
+        credentials.setPassword(Optional.ofNullable(userCreateDto.getCredentials().getPassword()).orElse(user.getCredentials().getPassword()));
         user.setCredentials(
-                Optional.ofNullable(userCreateDto.getCredentials()).orElse(user.getCredentials())
+                credentials
         );
         user.setFirstName(
                 Optional.ofNullable(userCreateDto.getFirstName()).orElse(user.getFirstName())
