@@ -3,6 +3,7 @@ package com.kasperovich.desoccer.mapping.converters.user;
 import com.kasperovich.desoccer.dto.users.UserCreateDto;
 import com.kasperovich.desoccer.exception.BadPasswordException;
 import com.kasperovich.desoccer.mapping.mappers.AddressMapper;
+import com.kasperovich.desoccer.models.Address;
 import com.kasperovich.desoccer.models.Credentials;
 import com.kasperovich.desoccer.models.User;
 import com.kasperovich.desoccer.repository.UserRepository;
@@ -31,16 +32,23 @@ public class UserUpdateConverter implements Converter<UserCreateDto, User> {
     }
 
     public User doConvert(UserCreateDto userCreateDto, Long id) throws EntityNotFoundException, BadPasswordException {
-        Optional<String>newPassword=Optional.ofNullable(userCreateDto.getCredentials().getPassword());
-        if(newPassword.isPresent()&&
-                !validCheck.isPasswordValid(userCreateDto.getCredentials().getPassword())){
-            throw new BadPasswordException("Password must include at least one capital, or number, or symbol");
+        Optional<Credentials> newCredentials = Optional.ofNullable(userCreateDto.getCredentials());
+        if (newCredentials.isPresent()) {
+            Optional<String> newPassword = Optional.ofNullable(newCredentials.get().getPassword());
+            if (newPassword.isPresent() &&
+                    !validCheck.isPasswordValid(newPassword.get())) {
+                throw new BadPasswordException("Password must include at least one capital, or number, or symbol");
+            }
         }
         User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User with this ID does not exist!"));
         user.setId(id);
-        Credentials credentials=new Credentials();
-        credentials.setLogin(Optional.ofNullable(userCreateDto.getCredentials().getLogin()).orElse(user.getCredentials().getLogin()));
-        credentials.setPassword(Optional.ofNullable(userCreateDto.getCredentials().getPassword()).orElse(user.getCredentials().getPassword()));
+        Credentials credentials = new Credentials();
+        if (newCredentials.isPresent()) {
+            credentials.setLogin(Optional.ofNullable(userCreateDto.getCredentials().getLogin()).orElse(user.getCredentials().getLogin()));
+            credentials.setPassword(Optional.ofNullable(userCreateDto.getCredentials().getPassword()).orElse(user.getCredentials().getPassword()));
+        } else {
+            credentials = user.getCredentials();
+        }
         user.setCredentials(
                 credentials
         );
@@ -56,8 +64,13 @@ public class UserUpdateConverter implements Converter<UserCreateDto, User> {
         user.setMobilePhone(
                 Optional.ofNullable(userCreateDto.getMobilePhone()).orElse(user.getMobilePhone())
         );
+        Address address=user.getAddress();
+        if(Optional.ofNullable(userCreateDto.getAddress()).isPresent()){
+            address=addressMapper.toEntity(userCreateDto.getAddress());
+            address.setPostcode(userCreateDto.getAddress().getPostCode());
+        }
         user.setAddress(
-                Optional.ofNullable(addressMapper.toEntity(userCreateDto.getAddress())).orElse(user.getAddress())
+                address
         );
         return user;
     }

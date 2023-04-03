@@ -74,6 +74,7 @@ public class UserServiceImpl implements UserService{
         if(user.getCredentials()!=null){
             user.setCredentials(new Credentials(user.getCredentials().getLogin(), encoder.encode(user.getCredentials().getPassword())));
         }
+        addressRepository.save(user.getAddress());
         return userRepository.save(user);
     }
 
