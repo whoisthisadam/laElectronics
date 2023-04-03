@@ -3,6 +3,7 @@ package com.kasperovich.desoccer.service.order;
 import com.kasperovich.desoccer.enums.OrderStatus;
 import com.kasperovich.desoccer.enums.PaymentStatus;
 import com.kasperovich.desoccer.exception.NotDeletableStatusException;
+import com.kasperovich.desoccer.models.Discount;
 import com.kasperovich.desoccer.models.Edit;
 import com.kasperovich.desoccer.models.Order;
 import com.kasperovich.desoccer.repository.OrderRepository;
@@ -18,6 +19,7 @@ import javax.validation.Valid;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -51,7 +53,10 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public Order updateOrder(Order order) {
         order.setEditData(new Edit(order.getEditData().getCreationDate(), new Timestamp(new Date().getTime())));
-        order.setTotal(order.getTotal()-(order.getTotal()/100)*order.getUser().getUserDiscount().getDiscountPercent());
+        Optional<Discount> userDiscount=Optional.ofNullable(order.getUser().getUserDiscount());
+        if(userDiscount.isPresent()){
+            order.setTotal(order.getTotal()-(order.getTotal()/100)*userDiscount.get().getDiscountPercent());
+        }
         order.getPayment().setAmount(order.getTotal());
         order=orderRepository.save(order);
         if(order.getPayment()!=null){
