@@ -37,7 +37,7 @@ public class Product {
     @Column(name = "is_deleted")
     Boolean isDeleted=false;
 
-    @Column(name = "status")
+    @Column(name = "product_status")
     @Enumerated(EnumType.STRING)
     ProductStatus status;
 

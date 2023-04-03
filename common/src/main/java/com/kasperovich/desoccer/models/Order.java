@@ -42,7 +42,7 @@ public class Order {
     })
     Edit editData;
 
-    @Column(name = "status")
+    @Column(name = "order_status")
     @Enumerated(EnumType.STRING)
     OrderStatus orderStatus;
 

@@ -1,6 +1,6 @@
 spring:
   flyway:
-    enabled: true
+    enabled: false
     baseline-on-migrate: true
     baseline-description: Flyway Scripts
     user: ${spring.datasource.username}
@@ -10,22 +10,27 @@ spring:
     ignore-migration-patterns: '*:ignored'
     schemas: boots
   datasource:
-    driver-class-name: org.postgresql.Driver
-    username: postgres
-    password: root
-    url: "jdbc:postgresql://localhost:5432/desoccer"
+    driver-class-name:  com.microsoft.sqlserver.jdbc.SQLServerDriver
+    username: avro_dev_app
+    password: Aa11111111
+    url: "jdbc:sqlserver://avroprod.database.windows.net:1433;encrypt=true;trustServerCertificate=false;loginTimeout=30;database=test_sandbox;"
     dbcp2:
       default-schema: boots
   jpa:
     hibernate:
-      ddl-auto: update
+      dialect: org.hibernate.dialect.SQLServerDialect
+      ddl-auto: none
     show-sql: true
-    database: postgresql
+    database: sql_server
     generate-ddl: true
     defer-datasource-initialization: false
+    properties:
+      hibernate:
+        default_schema: boots
+        format_sql: 'false'
   sql:
     init:
-      platform: postgres
+      platform: sql_server
       mode: always
       continue-on-error: true
   mvc:

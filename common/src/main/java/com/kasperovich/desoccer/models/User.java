@@ -32,8 +32,8 @@ public class User {
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "login", column = @Column(name = "login")),
-            @AttributeOverride(name = "password", column = @Column(name = "password"))
+            @AttributeOverride(name = "login", column = @Column(name = "user_login")),
+            @AttributeOverride(name = "password", column = @Column(name = "user_password"))
     })
     Credentials credentials;
 

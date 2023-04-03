@@ -30,7 +30,7 @@ public class Payment {
     @Enumerated(EnumType.STRING)
     PaymentProviders provider;
 
-    @Column(name = "status")
+    @Column(name = "payment_status")
     @Enumerated(EnumType.STRING)
     PaymentStatus status;
 
