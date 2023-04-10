@@ -9,8 +9,9 @@ import java.util.List;
 import static lombok.AccessLevel.PRIVATE;
 
 @Data
-@FieldDefaults(level = PRIVATE, makeFinal = false)
+@FieldDefaults(level = PRIVATE)
 public class OrderUpdateDto {
+    //TODO: make able to change order status via API
 
     List<Long>products;
 

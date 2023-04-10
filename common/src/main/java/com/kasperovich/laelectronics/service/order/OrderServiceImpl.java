@@ -27,6 +27,8 @@ import java.util.stream.Collectors;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class OrderServiceImpl implements OrderService{
 
+    //TODO make unable to add deleted and OUT_OF_STOCK products
+
     OrderRepository orderRepository;
 
     PaymentRepository paymentRepository;
