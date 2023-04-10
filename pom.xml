@@ -14,7 +14,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.kasperovich</groupId>
-    <artifactId>DeSoccer</artifactId>
+    <artifactId>LaElectronics</artifactId>
     <version>1.0.0</version>
     <name>DeSoccer</name>
     <description>Application for soccer store</description>
@@ -98,12 +98,6 @@
             <version>6.1.7.Final</version>
             <type>pom</type>
             <scope>provided</scope>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
         </dependency>
 
         <dependency>

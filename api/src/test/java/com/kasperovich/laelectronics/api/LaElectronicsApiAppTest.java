@@ -1,17 +1,13 @@
-package com.kasperovich.laelectronics;
-
+package com.kasperovich.laelectronics.api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+
 @SpringBootTest
-class DeSoccerApplicationTests {
-
-
-
+public class LaElectronicsApiAppTest {
     @Test
     public void contextLoads() {
 
     }
-
 }
