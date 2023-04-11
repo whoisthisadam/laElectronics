@@ -6,7 +6,9 @@ import com.kasperovich.laelectronics.api.mapping.converters.product.ProductUpdat
 import com.kasperovich.laelectronics.api.mapping.mappers.ProductListMapper;
 import com.kasperovich.laelectronics.api.mapping.mappers.ProductMapper;
 import com.kasperovich.laelectronics.exception.NotDeletableStatusException;
+import com.kasperovich.laelectronics.models.Category;
 import com.kasperovich.laelectronics.models.Product;
+import com.kasperovich.laelectronics.repository.CategoryRepository;
 import com.kasperovich.laelectronics.service.product.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -16,6 +18,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -27,10 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @Validated
@@ -49,6 +49,8 @@ public class ProductController {
 
     ProductUpdateConverter productUpdateConverter;
 
+    CategoryRepository categoryRepository;
+
     @Operation(
             summary = "Gets all products",
             responses = {
@@ -62,7 +64,13 @@ public class ProductController {
             })
     @GetMapping
     public ResponseEntity<List<ProductGetDto>>findAll(){
-        List<ProductGetDto>dtos=new ArrayList<>(productListMapper.toDto(productService.findAll()));
+        List<Product>entites=productService.findAll();
+        List<ProductGetDto>dtos=new ArrayList<>(productListMapper.toDto(entites));
+        dtos.forEach(x->{
+            Optional<Category> category=Optional.ofNullable(entites.get(dtos.indexOf(x)).getCategory());
+            //TODO remove optionality when all products will be assigned to categories
+            category.ifPresent(val->x.getCategory().setName(val.getCategoryName()));
+        });
         return ResponseEntity.ok(dtos);
     }
 
@@ -89,9 +97,16 @@ public class ProductController {
     @Transactional
     @PostMapping
     public ResponseEntity<Map<String, ProductGetDto> >createProduct(@RequestBody ProductCreateDto productCreateDto){
-        Product product=productService.createProduct(productMapper.toEntity(productCreateDto));
+        Product product=productMapper.toEntity(productCreateDto);
+        String catName=productCreateDto.getCategory().getName();
+        product.setCategory(
+                categoryRepository.findCategoryByCategoryName(catName).orElseThrow(()->new EntityNotFoundException("Category "+catName+" not found"))
+        );
+        Product createdProduct=productService.createProduct(product);
+        ProductGetDto productGetDto=productMapper.toDto(createdProduct);
+        productGetDto.getCategory().setName(createdProduct.getCategory().getCategoryName());
         return new ResponseEntity<>(
-                Collections.singletonMap("New product:", productMapper.toDto(product)),
+                Collections.singletonMap("New product:", productGetDto),
                 HttpStatus.CREATED
         );
     }
@@ -120,7 +135,9 @@ public class ProductController {
     public ResponseEntity<Map<String, ProductGetDto>>updateProduct(@RequestParam String id, @RequestBody ProductCreateDto productCreateDto){
         Long iD=Long.parseLong(id);
         Product product=productUpdateConverter.doConvert(productCreateDto, iD);
-        productService.updateProduct(product);
+        Product updatedProduct=productService.updateProduct(product);
+        ProductGetDto productGetDto=productMapper.toDto(updatedProduct);
+        productGetDto.getCategory().setName(updatedProduct.getCategory().getCategoryName());
         return ResponseEntity.ok(Collections.singletonMap("Updated product:",productMapper.toDto(product)));
     }
 

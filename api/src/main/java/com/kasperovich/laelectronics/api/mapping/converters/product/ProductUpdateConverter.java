@@ -1,7 +1,9 @@
 package com.kasperovich.laelectronics.api.mapping.converters.product;
 
 import com.kasperovich.laelectronics.api.dto.product.ProductCreateDto;
+import com.kasperovich.laelectronics.models.Category;
 import com.kasperovich.laelectronics.models.Product;
+import com.kasperovich.laelectronics.repository.CategoryRepository;
 import com.kasperovich.laelectronics.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AccessLevel;
@@ -19,6 +21,8 @@ public class ProductUpdateConverter implements Converter<ProductCreateDto, Produ
 
     ProductRepository productRepository;
 
+    CategoryRepository categoryRepository;
+
 
     @Override
     public Product convert(ProductCreateDto productCreateDto) {
@@ -29,6 +33,12 @@ public class ProductUpdateConverter implements Converter<ProductCreateDto, Produ
         Product product = productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product with this id does not exist"));
         product.setId(id);
 
+        if(productCreateDto.getCategory()!=null){
+            String searchCatName=productCreateDto.getCategory().getName();
+            Category category=categoryRepository.findCategoryByCategoryName(searchCatName)
+                    .orElseThrow(()->new EntityNotFoundException("Category "+searchCatName+" not found"));
+            product.setCategory(category);
+        }
         product.setName(
                 Optional.ofNullable(productCreateDto.getName()).orElse(product.getName())
         );

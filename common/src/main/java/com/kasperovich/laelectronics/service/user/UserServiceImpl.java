@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService{
             if(!new ValidCheck().isPasswordValid(user.getCredentials().getPassword())){
                 throw new BadPasswordException("Password must include at least one capital, or number, or symbol");
             }
-            user.setUserDiscount(discountRepository.findDiscountsByName(Discounts.LOGIN_DISCOUNT));
+            user.setUserDiscount(discountRepository.findDiscountByNameAndIsDeletedIsFalse(Discounts.LOGIN_DISCOUNT));
             user.setCredentials(new Credentials(user.getCredentials().getLogin(), encoder.encode(user.getCredentials().getPassword())));
         }
 

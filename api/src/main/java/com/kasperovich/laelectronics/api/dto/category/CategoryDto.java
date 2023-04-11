@@ -1,8 +1,7 @@
-package com.kasperovich.laelectronics.api.dto.product;
+package com.kasperovich.laelectronics.api.dto.category;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.kasperovich.laelectronics.api.dto.category.CategoryDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -18,16 +17,6 @@ import static lombok.AccessLevel.PRIVATE;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor
-public class ProductGetDto {
-
-    CategoryDto category;
-
-    Long id;
-
+public class CategoryDto {
     String name;
-
-    String brand;
-
-    Long price;
-
 }

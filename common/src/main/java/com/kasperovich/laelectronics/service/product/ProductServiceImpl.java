@@ -29,7 +29,7 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public Product createProduct(@Valid Product product) {
         product.setEditData(new Edit(new Timestamp(new Date().getTime()), null));
-        product.setStatus(ProductStatus.values()[new Random().nextInt(3)]);
+        product.setStatus(ProductStatus.values()[new Random().nextInt(3)]);//TODO remove random when release
         return productRepository.save(product);
     }
 
