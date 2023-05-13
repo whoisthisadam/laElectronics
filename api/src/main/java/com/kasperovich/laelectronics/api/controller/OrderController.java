@@ -99,7 +99,7 @@ public class OrderController {
     }
 
     @Operation(
-            summary = "Update order(Admin&Moderator only)",
+            summary = "Update order(Admin only)",
             responses = {
                     @ApiResponse(
                             responseCode = "200",

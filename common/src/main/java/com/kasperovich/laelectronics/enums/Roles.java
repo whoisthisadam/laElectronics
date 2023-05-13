@@ -1,5 +1,12 @@
 package com.kasperovich.laelectronics.enums;
 
 public enum Roles {
-    USER_NOT_AUTHORIZED, USER_AUTHORIZED, MODERATOR, ADMIN
+    USER(1),
+    ADMIN(3);
+
+    public int code;
+
+    Roles(int code) {
+        this.code=code;
+    }
 }

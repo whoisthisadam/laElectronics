@@ -45,7 +45,7 @@ public class RolesController {
 
 
     @Operation(
-            summary = "Gets all roles(Admin&Moderator only)",
+            summary = "Gets all roles(Admin only)",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -63,7 +63,7 @@ public class RolesController {
                     required = true,
                     description = "JWT Token, can be generated in auth controller /auth")
     })
-    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<RoleGetDto>> findAll() {
         List<RoleGetDto> roleResponseList = roleListMapper.toResponsesList(roleService.findAll());

@@ -43,7 +43,7 @@ public class DiscountController {
     private final DiscountGetConverter discountGetConverter;
 
     @Operation(
-            summary = "Create discount(Admin&Moderator only)",
+            summary = "Create discount(Admin only)",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -61,7 +61,7 @@ public class DiscountController {
                     required = true,
                     description = "JWT Token, can be generated in auth controller /auth")
     })
-    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @Transactional
     @PostMapping
     public ResponseEntity<Map<String, DiscountGetDto>> createDiscount(@RequestBody DiscountCreateDto discountCreateDto) {
@@ -72,7 +72,7 @@ public class DiscountController {
     }
 
     @Operation(
-            summary = "Find all discounts(Admin&Moderator only)",
+            summary = "Find all discounts(Admin only)",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -90,7 +90,7 @@ public class DiscountController {
                     required = true,
                     description = "JWT Token, can be generated in auth controller /auth")
     })
-    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<DiscountGetDto>> findAllDiscount() {
         List<DiscountGetDto> list = discountService.findAll()

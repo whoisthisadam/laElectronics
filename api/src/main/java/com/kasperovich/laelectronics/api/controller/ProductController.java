@@ -75,7 +75,7 @@ public class ProductController {
     }
 
     @Operation(
-            summary = "Create product(Admin&Moderator only)",
+            summary = "Create product(Admin only)",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -93,7 +93,7 @@ public class ProductController {
                     required = true,
                     description = "JWT Token, can be generated in auth controller /auth")
     })
-    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @Transactional
     @PostMapping
     public ResponseEntity<Map<String, ProductGetDto> >createProduct(@RequestBody ProductCreateDto productCreateDto){
@@ -113,7 +113,7 @@ public class ProductController {
 
 
     @Operation(
-            summary = "Update product(Admin&Moderator only)",
+            summary = "Update product(Admin only)",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -129,7 +129,7 @@ public class ProductController {
                     required = true,
                     description = "JWT Token, can be generated in auth controller /auth")
     })
-    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @Transactional
     @PatchMapping("/update")
     public ResponseEntity<Map<String, ProductGetDto>>updateProduct(@RequestParam String id, @RequestBody ProductCreateDto productCreateDto){

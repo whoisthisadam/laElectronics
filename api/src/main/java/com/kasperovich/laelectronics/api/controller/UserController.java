@@ -52,7 +52,7 @@ public class UserController {
     private final DiscountGetConverter discountGetConverter;
 
     @Operation(
-    summary = "Gets all users(Admin only)",
+    summary = "Gets all users(Admin&Own Data only)",
     responses = {
         @ApiResponse(
                 responseCode = "200",
@@ -88,7 +88,7 @@ public class UserController {
     }
 
     @Operation(
-            summary = "Update user(Admin only)",
+            summary = "Update user(Admin&Own Data only)",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -104,7 +104,7 @@ public class UserController {
                     required = true,
                     description = "JWT Token, can be generated in auth controller /auth")
     })
-    @PreAuthorize(value = "hasRole('ADMIN')")
+    @PreAuthorize(value = "hasRole('ADMIN') or authentication.principal.username.equals(#userCreateDto.email)" )
     @Transactional
     @CachePut
     @PatchMapping("/update")
@@ -117,7 +117,7 @@ public class UserController {
     }
 
     @Operation(
-            summary = "Delete user(Admin only)",
+            summary = "Delete user(Admin&Own Data only)",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -133,7 +133,7 @@ public class UserController {
                     required = true,
                     description = "JWT Token, can be generated in auth controller /auth")
     })
-    @PreAuthorize(value = "hasRole('ADMIN')")
+    @PreAuthorize(value = "hasRole('ADMIN') or @userSecurity.hasUserId(authentication, #id)")
     @CacheEvict
     @PatchMapping("/admin/delete")
     public ResponseEntity<String>deleteUser(@RequestParam String id){

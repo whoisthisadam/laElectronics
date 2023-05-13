@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -26,7 +27,7 @@ DefaultExceptionHandler {
         return new ResponseEntity<>(Collections.singletonMap(strErr, ErrorContainer
                 .builder()
                 .exceptionId(UUIDGenerator.generateUUID())
-                .errorCode(2)
+                .errorCode(1)
                 .errorMessage("General Error")
                 .e(exception.getClass().toString())
                 .build()), HttpStatus.BAD_REQUEST);
@@ -41,7 +42,7 @@ DefaultExceptionHandler {
         return new ResponseEntity<>(Collections.singletonMap(strErr, ErrorContainer
                 .builder()
                 .exceptionId(UUIDGenerator.generateUUID())
-                .errorCode(2)
+                .errorCode(5)
                 .errorMessage(exception.getMessage())
                 .e(exception.getClass().toString())
                 .build()), HttpStatus.BAD_REQUEST);
@@ -70,11 +71,24 @@ DefaultExceptionHandler {
         ErrorContainer error =
                 ErrorContainer.builder()
                         .exceptionId(UUIDGenerator.generateUUID())
-                        .errorCode(2)
+                        .errorCode(4)
                         .errorMessage("Data integrity violation")
                         .e(e.getClass().toString())
                         .build();
         return new ResponseEntity<>(Collections.singletonMap("Error:",error),HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<Object> handlerAccessDenied(Exception e) {
+
+        ErrorContainer error =
+                ErrorContainer.builder()
+                        .exceptionId(UUIDGenerator.generateUUID())
+                        .errorCode(3)
+                        .errorMessage("Access denied")
+                        .e(e.getClass().toString())
+                        .build();
+        return new ResponseEntity<>(Collections.singletonMap("Error:",error),HttpStatus.UNAUTHORIZED);
     }
 
 }

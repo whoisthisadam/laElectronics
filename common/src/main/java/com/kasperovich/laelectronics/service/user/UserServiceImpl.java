@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import javax.validation.Valid;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -26,7 +27,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     @Autowired
     UserRepository userRepository;
@@ -42,22 +43,16 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     RoleService roleService;
-    PasswordEncoder encoder=new BCryptPasswordEncoder();
+    PasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @Override
     public User createUser(@Valid User user) throws BadPasswordException {
-
-        if(user.getCredentials()==null){
-            user.setRole(roleService.findRoleByName(Roles.USER_NOT_AUTHORIZED));
+        user.setRole(roleService.findRoleByName(Roles.USER));
+        if (!new ValidCheck().isPasswordValid(user.getCredentials().getPassword())) {
+            throw new BadPasswordException("Password must include at least one capital, or number, or symbol");
         }
-        else{
-            user.setRole(roleService.findRoleByName(Roles.USER_AUTHORIZED));
-            if(!new ValidCheck().isPasswordValid(user.getCredentials().getPassword())){
-                throw new BadPasswordException("Password must include at least one capital, or number, or symbol");
-            }
-            user.setUserDiscount(discountRepository.findDiscountByNameAndIsDeletedIsFalse(Discounts.LOGIN_DISCOUNT));
-            user.setCredentials(new Credentials(user.getCredentials().getLogin(), encoder.encode(user.getCredentials().getPassword())));
-        }
+        user.setUserDiscount(discountRepository.findDiscountByNameAndIsDeletedIsFalse(Discounts.LOGIN_DISCOUNT));
+        user.setCredentials(new Credentials(user.getCredentials().getLogin(), encoder.encode(user.getCredentials().getPassword())));
 
         addressRepository.save(user.getAddress());
         return userRepository.save(user);
@@ -65,13 +60,13 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public List<User> findAll() {
-        return userRepository.findAll().stream().filter(x-> !x.getIsDeleted()).collect(Collectors.toList());
+        return userRepository.findAll().stream().filter(x -> !x.getIsDeleted()).collect(Collectors.toList());
     }
 
     @Override
     public User updateUser(@Valid User user) {
         user.setEditData(new Edit(user.getEditData().getCreationDate(), new Timestamp(new Date().getTime())));
-        if(user.getCredentials()!=null){
+        if (user.getCredentials() != null) {
             user.setCredentials(new Credentials(user.getCredentials().getLogin(), encoder.encode(user.getCredentials().getPassword())));
         }
         addressRepository.save(user.getAddress());
@@ -80,8 +75,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User deleteUser(Long id) {
-        User user=userRepository.findById(id).orElseThrow(
-                ()->new EntityNotFoundException("User with this ID does not exist!")
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("User with this ID does not exist!")
         );
         user.setIsDeleted(true);
         return userRepository.save(user);

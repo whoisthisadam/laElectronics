@@ -62,7 +62,7 @@ public class User {
     @Column(name = "is_deleted")
     Boolean isDeleted = false;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     @Email
     @Size(max = 100)
     String email;
