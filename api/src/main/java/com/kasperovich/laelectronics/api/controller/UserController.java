@@ -52,7 +52,7 @@ public class UserController {
     private final DiscountGetConverter discountGetConverter;
 
     @Operation(
-    summary = "Gets all users(Admin&Own Data only)",
+    summary = "Gets all users(Admin only)",
     responses = {
         @ApiResponse(
                 responseCode = "200",
@@ -140,5 +140,30 @@ public class UserController {
         Long iD=Long.parseLong(id);
         userService.deleteUser(iD);
         return ResponseEntity.ok("Deleted user with ID number "+id);
+    }
+
+    @Operation(
+            summary = "Get user's profile(Admin&Own Data only)",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Profile returned",
+                            content =
+                            @Content(
+                                    mediaType = "application/json",
+                                    array = @ArraySchema(schema = @Schema(implementation =String.class))))
+            } ,parameters = {
+            @Parameter(
+                    in = ParameterIn.HEADER,
+                    name = "X-Auth-Token",
+                    required = true,
+                    description = "JWT Token, can be generated in auth controller /auth")
+    })
+    @PreAuthorize(value = "hasRole('ADMIN') or authentication.principal.username.equals(#email)")
+    @GetMapping("/user")
+    public ResponseEntity<UserGetDto>getProfile(@RequestParam String email){
+        User user=userService.findUserByEmail(email);
+        UserGetDto result=userMapper.toDto(user);
+        return ResponseEntity.ok(result);
     }
 }
