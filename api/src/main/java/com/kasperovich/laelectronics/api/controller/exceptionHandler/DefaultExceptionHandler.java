@@ -88,7 +88,7 @@ DefaultExceptionHandler {
                         .errorMessage("Access denied")
                         .e(e.getClass().toString())
                         .build();
-        return new ResponseEntity<>(Collections.singletonMap("Error:",error),HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(Collections.singletonMap("Error:",error),HttpStatus.FORBIDDEN);
     }
 
 }

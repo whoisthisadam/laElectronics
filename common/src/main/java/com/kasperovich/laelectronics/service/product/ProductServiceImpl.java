@@ -36,13 +36,15 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public Product deleteProduct(Long id) throws NotDeletableStatusException {
         Product product=productRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        if(product.getStatus()== ProductStatus.OUT_OF_STOCK){
-            product.setIsDeleted(true);
-            return productRepository.save(product);
-        }
-        else throw new NotDeletableStatusException(
-                "Unable to delete product with status "+product.getStatus().toString()
-        );
+        product.setIsDeleted(true);
+        return productRepository.save(product);
+//        if(product.getStatus()== ProductStatus.OUT_OF_STOCK){
+//            product.setIsDeleted(true);
+//            return productRepository.save(product);
+//        }
+//        else throw new NotDeletableStatusException(
+//                "Unable to delete product with status "+product.getStatus().toString()
+//        );
     }
 
     @Override

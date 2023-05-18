@@ -38,6 +38,7 @@ import java.util.*;
 @RequestMapping("/data/products")
 @RequiredArgsConstructor
 @Tag(name = "Products")
+@CrossOrigin
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ProductController {
 
