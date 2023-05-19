@@ -9,6 +9,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -89,6 +90,19 @@ DefaultExceptionHandler {
                         .e(e.getClass().toString())
                         .build();
         return new ResponseEntity<>(Collections.singletonMap("Error:",error),HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<Object> handlerBadCredentials(Exception e) {
+
+        ErrorContainer error =
+                ErrorContainer.builder()
+                        .exceptionId(UUIDGenerator.generateUUID())
+                        .errorCode(6)
+                        .errorMessage("Incorrect data!")
+                        .e(e.getClass().toString())
+                        .build();
+        return new ResponseEntity<>(Collections.singletonMap("Error:",error),HttpStatus.UNAUTHORIZED);
     }
 
 }
