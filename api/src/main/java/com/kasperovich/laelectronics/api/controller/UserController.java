@@ -41,6 +41,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Tag(name = "Users")
 @CacheConfig(cacheNames = "users")
+@CrossOrigin
 public class UserController {
 
     private final UserService userService;
@@ -164,6 +165,7 @@ public class UserController {
     public ResponseEntity<UserGetDto>getProfile(@RequestParam String email){
         User user=userService.findUserByEmail(email);
         UserGetDto result=userMapper.toDto(user);
+        result.setRoleName(String.valueOf(user.getRole().getName()));
         return ResponseEntity.ok(result);
     }
 }

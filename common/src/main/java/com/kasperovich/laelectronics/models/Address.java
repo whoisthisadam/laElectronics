@@ -20,6 +20,7 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
+    @JsonIgnore
     Long id;
 
     @Column(name = "line_1")
@@ -27,9 +28,6 @@ public class Address {
 
     @Column(name = "line_2")
     String lineTwo;
-
-    @Column(name = "line_3")
-    String lineThree;
 
     @Column(name = "city")
     String city;

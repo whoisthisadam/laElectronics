@@ -15,14 +15,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
-
-import javax.persistence.EntityNotFoundException;
-import java.security.Principal;
 
 @RequiredArgsConstructor
 @Configuration
@@ -53,6 +49,7 @@ public class WebSecurityConfiguration {
                                 .requestMatchers("/guest/**").permitAll()
                                 .requestMatchers("/registration/**").permitAll()
                                 .requestMatchers("/authentication/**").permitAll()
+                                .requestMatchers("/test/**").permitAll()
                                 .requestMatchers("/admin/**").hasAnyRole("ADMIN", "MODERATOR")
                                 .anyRequest().authenticated() // all other requests must be authenticated
                 )

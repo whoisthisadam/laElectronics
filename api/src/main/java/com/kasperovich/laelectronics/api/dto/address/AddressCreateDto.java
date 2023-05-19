@@ -12,8 +12,6 @@ public class AddressCreateDto {
 
     String lineTwo;
 
-    String lineThree;
-
     String city;
 
     String province;
