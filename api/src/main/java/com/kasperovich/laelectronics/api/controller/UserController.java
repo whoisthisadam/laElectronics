@@ -1,5 +1,6 @@
 package com.kasperovich.laelectronics.api.controller;
 
+import com.kasperovich.laelectronics.api.dto.users.DeleteUserDto;
 import com.kasperovich.laelectronics.api.dto.users.UserCreateDto;
 import com.kasperovich.laelectronics.api.dto.users.UserGetDto;
 import com.kasperovich.laelectronics.api.mapping.converters.discount.DiscountGetConverter;
@@ -32,7 +33,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @Validated
@@ -83,7 +83,7 @@ public class UserController {
                             }
                             return userGetDto;
                         }
-                ).collect(Collectors.toList());
+                ).toList();
         return ResponseEntity.ok(userGetDtos);
     }
 
@@ -136,10 +136,10 @@ public class UserController {
     @PreAuthorize(value = "hasRole('ADMIN') or @userSecurity.hasUserId(authentication, #id)")
     @CacheEvict
     @PatchMapping("/admin/delete")
-    public ResponseEntity<String>deleteUser(@RequestParam String id){
+    public ResponseEntity<DeleteUserDto>deleteUser(@RequestParam String id){
         Long iD=Long.parseLong(id);
         userService.deleteUser(iD);
-        return ResponseEntity.ok("Deleted user with ID number "+id);
+        return ResponseEntity.ok(new DeleteUserDto(DeleteUserDto.DeletedStatus.DELETED, iD));
     }
 
     @Operation(

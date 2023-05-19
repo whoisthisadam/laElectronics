@@ -1,5 +1,6 @@
 package com.kasperovich.laelectronics.api.controller;
 
+import com.kasperovich.laelectronics.api.dto.product.DeleteProductDto;
 import com.kasperovich.laelectronics.api.dto.product.ProductCreateDto;
 import com.kasperovich.laelectronics.api.dto.product.ProductGetDto;
 import com.kasperovich.laelectronics.api.mapping.converters.product.ProductUpdateConverter;
@@ -162,10 +163,10 @@ public class ProductController {
     })
     @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/delete")
-    public ResponseEntity<String>deleteProduct(@RequestParam(value = "ID") String idStr) throws NotDeletableStatusException {
+    public ResponseEntity<DeleteProductDto>deleteProduct(@RequestParam(value = "ID") String idStr) throws NotDeletableStatusException {
         Long id=Long.parseLong(idStr);
         productService.deleteProduct(id);
-        return ResponseEntity.ok("Deleted product with id:"+id);
+        return ResponseEntity.ok(new DeleteProductDto(DeleteProductDto.DeletedStatus.DELETED, id));
     }
 
 
