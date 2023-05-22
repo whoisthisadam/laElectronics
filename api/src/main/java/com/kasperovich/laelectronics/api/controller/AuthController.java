@@ -2,7 +2,7 @@ package com.kasperovich.laelectronics.api.controller;
 
 import com.kasperovich.laelectronics.api.dto.auth.AuthRequest;
 import com.kasperovich.laelectronics.api.dto.auth.AuthResponse;
-import com.kasperovich.laelectronics.api.security.jwt.JwtTokenHelper;
+import com.kasperovich.laelectronics.api.security.jwt.TokenUtils;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
 
-    private final JwtTokenHelper tokenUtils;
+    private final TokenUtils tokenUtils;
 
     private final UserDetailsService userProvider;
 

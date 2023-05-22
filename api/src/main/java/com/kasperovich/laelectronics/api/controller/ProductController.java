@@ -169,9 +169,4 @@ public class ProductController {
         return ResponseEntity.ok(new DeleteProductDto(DeleteProductDto.DeletedStatus.DELETED, id));
     }
 
-
-
-
-
-
 }

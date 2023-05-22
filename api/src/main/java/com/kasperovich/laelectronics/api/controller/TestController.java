@@ -1,6 +1,8 @@
 package com.kasperovich.laelectronics.api.controller;
 
 import com.kasperovich.laelectronics.api.dto.users.UserGetDto;
+import com.kasperovich.laelectronics.models.Address;
+import com.kasperovich.laelectronics.repository.AddressRepository;
 import com.kasperovich.laelectronics.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -10,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +28,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
@@ -44,6 +48,8 @@ public class TestController {
     }
 
     UserService userService;
+
+    AddressRepository addressRepository;
 
     @Operation(
             summary = "Gets all users(Admin only)",
@@ -68,5 +74,12 @@ public class TestController {
         UserDetails userDetails=(UserDetails)authentication.getPrincipal();
         response.setUserDetails(userDetails);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/test-address")
+    public ResponseEntity<Address> getAddressByEmail(@RequestParam String email)
+    {
+        Address address = addressRepository.findAddressByUserEmail(email);
+        return ResponseEntity.ok(address);
     }
 }

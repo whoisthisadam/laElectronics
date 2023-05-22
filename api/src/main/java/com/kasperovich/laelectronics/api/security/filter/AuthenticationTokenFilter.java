@@ -2,7 +2,7 @@ package com.kasperovich.laelectronics.api.security.filter;
 
 
 import com.kasperovich.laelectronics.api.security.CustomHeaders;
-import com.kasperovich.laelectronics.api.security.jwt.JwtTokenHelper;
+import com.kasperovich.laelectronics.api.security.jwt.TokenUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,7 +23,7 @@ import java.io.IOException;
 @Component
 public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
-    private final JwtTokenHelper tokenUtils;
+    private final TokenUtils tokenUtils;
 
     private final UserDetailsService userDetailsService;
 
