@@ -66,6 +66,7 @@ public class RegistrationController {
         User user = userMapper.toEntity(userCreateDto);
         user.getAddress().setPostcode(userCreateDto.getAddress().getPostCode());
         UserGetDto userGetDto=userMapper.toDto(userService.createUser(user));
+        userGetDto.setLogin(user.getCredentials().getLogin());
         if(user.getUserDiscount()!=null){
             userGetDto.setDiscount(discountGetConverter.convert(user.getUserDiscount()));
         }

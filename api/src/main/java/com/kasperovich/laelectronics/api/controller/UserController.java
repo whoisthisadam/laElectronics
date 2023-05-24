@@ -79,6 +79,7 @@ public class UserController {
                 .map(
                         x->{
                             UserGetDto userGetDto=userMapper.toDto(x);
+                            userGetDto.setLogin(x.getCredentials().getLogin());
                             if(x.getUserDiscount()!=null){
                                 userGetDto.setDiscount(discountGetConverter.convert(x.getUserDiscount()));
                             }
@@ -111,10 +112,13 @@ public class UserController {
     @PatchMapping("/update")
     public ResponseEntity<Map<String, UserGetDto>>updateUser(@RequestParam String id, @RequestBody UserCreateDto userCreateDto) throws BadPasswordException {
         User user= userUpdateConverter.doConvert(userCreateDto, Long.parseLong(id));
+        UserGetDto result=userMapper.toDto(userService.updateUser(user));
+        result.setRoleName(String.valueOf(user.getRole().getName()));
+        result.setLogin(user.getCredentials().getLogin());
         return new ResponseEntity<>(
                 Collections.singletonMap(
-                        "Updated user:", userMapper.toDto(userService.updateUser(user))), HttpStatus.OK
-        );
+                        "Updated user:", result
+        ),HttpStatus.OK);
     }
 
     @Operation(
@@ -166,6 +170,7 @@ public class UserController {
         User user=userService.findUserByEmail(email);
         UserGetDto result=userMapper.toDto(user);
         result.setRoleName(String.valueOf(user.getRole().getName()));
+        result.setLogin(user.getCredentials().getLogin());
         return ResponseEntity.ok(result);
     }
 }

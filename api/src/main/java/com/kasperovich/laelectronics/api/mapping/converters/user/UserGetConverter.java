@@ -15,6 +15,7 @@ public class UserGetConverter implements Converter<User, UserGetDto> {
                 .firstName(source.getFirstName())
                 .lastName(source.getLastName())
                 .mobilePhone(source.getMobilePhone())
+                .login(source.getCredentials().getLogin())
                 .email(source.getEmail())
                 .build();
     }

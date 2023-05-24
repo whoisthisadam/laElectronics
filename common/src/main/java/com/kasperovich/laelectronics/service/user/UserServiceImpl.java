@@ -66,9 +66,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateUser(@Valid User user) {
         user.setEditData(new Edit(user.getEditData().getCreationDate(), new Timestamp(new Date().getTime())));
-        if (user.getCredentials() != null) {
-            user.setCredentials(new Credentials(user.getCredentials().getLogin(), encoder.encode(user.getCredentials().getPassword())));
-        }
         addressRepository.save(user.getAddress());
         return userRepository.save(user);
     }

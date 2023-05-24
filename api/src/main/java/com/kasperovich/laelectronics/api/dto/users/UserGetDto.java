@@ -21,6 +21,8 @@ public class UserGetDto {
 
     String email;
 
+    String login;
+
     String roleName;
 
     DiscountGetDto discount;

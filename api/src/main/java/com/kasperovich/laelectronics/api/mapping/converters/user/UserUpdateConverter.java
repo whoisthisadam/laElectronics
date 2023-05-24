@@ -11,6 +11,8 @@ import com.kasperovich.laelectronics.util.ValidCheck;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -24,6 +26,8 @@ public class UserUpdateConverter implements Converter<UserCreateDto, User> {
     private final AddressMapper addressMapper;
 
     private final ValidCheck validCheck;
+
+    PasswordEncoder encoder=new BCryptPasswordEncoder();
 
 
     @Override
@@ -41,17 +45,13 @@ public class UserUpdateConverter implements Converter<UserCreateDto, User> {
             }
         }
         User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User with this ID does not exist!"));
-        user.setId(id);
-        Credentials credentials = new Credentials();
         if (newCredentials.isPresent()) {
-            credentials.setLogin(Optional.ofNullable(userCreateDto.getCredentials().getLogin()).orElse(user.getCredentials().getLogin()));
-            credentials.setPassword(Optional.ofNullable(userCreateDto.getCredentials().getPassword()).orElse(user.getCredentials().getPassword()));
-        } else {
-            credentials = user.getCredentials();
+            newCredentials.get().setLogin(Optional.ofNullable(newCredentials.get().getLogin()).orElse(user.getCredentials().getLogin()));
+            Optional<String>newPassword = Optional.ofNullable(newCredentials.get().getPassword());
+            if(newPassword.isPresent())newCredentials.get().setPassword(encoder.encode(newPassword.get()));
+            else newCredentials.get().setPassword(user.getCredentials().getPassword());
+            user.setCredentials(newCredentials.get());
         }
-        user.setCredentials(
-                credentials
-        );
         user.setFirstName(
                 Optional.ofNullable(userCreateDto.getFirstName()).orElse(user.getFirstName())
         );
