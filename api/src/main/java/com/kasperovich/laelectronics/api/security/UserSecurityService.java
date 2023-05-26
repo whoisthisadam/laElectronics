@@ -21,7 +21,7 @@ public class UserSecurityService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {
             /*Find user in DB*/
-            Optional<User> searchResult = userRepository.findByCredentialsLoginOrEmail(username, username);
+            Optional<User> searchResult = userRepository.findUserByEmailAndIsDeleted(username, false);
 
             if (searchResult.isPresent()) {
                 User user = searchResult.get();
