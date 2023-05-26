@@ -140,7 +140,7 @@ public class UserController {
     })
     @PreAuthorize(value = "hasRole('ADMIN') or @userSecurity.hasUserId(authentication, #id)")
     @CacheEvict
-    @PatchMapping("/admin/delete")
+    @PatchMapping("/delete")
     public ResponseEntity<DeleteUserDto>deleteUser(@RequestParam String id){
         Long iD=Long.parseLong(id);
         userService.deleteUser(iD);
