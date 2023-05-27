@@ -1,5 +1,6 @@
 package com.kasperovich.laelectronics.api.controller;
 
+import com.kasperovich.laelectronics.api.dto.category.CategoryDto;
 import com.kasperovich.laelectronics.api.dto.product.DeleteProductDto;
 import com.kasperovich.laelectronics.api.dto.product.ProductCreateDto;
 import com.kasperovich.laelectronics.api.dto.product.ProductGetDto;
@@ -10,6 +11,7 @@ import com.kasperovich.laelectronics.exception.NotDeletableStatusException;
 import com.kasperovich.laelectronics.models.Category;
 import com.kasperovich.laelectronics.models.Product;
 import com.kasperovich.laelectronics.repository.CategoryRepository;
+import com.kasperovich.laelectronics.repository.ProductRepository;
 import com.kasperovich.laelectronics.service.product.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -52,6 +54,8 @@ public class ProductController {
     ProductUpdateConverter productUpdateConverter;
 
     CategoryRepository categoryRepository;
+
+    ProductRepository productRepository;
 
     @Operation(
             summary = "Gets all products",
@@ -167,6 +171,31 @@ public class ProductController {
         Long id=Long.parseLong(idStr);
         productService.deleteProduct(id);
         return ResponseEntity.ok(new DeleteProductDto(DeleteProductDto.DeletedStatus.DELETED, id));
+    }
+
+    @Operation(
+            summary = "Find product by ID",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Product returned",
+                            content =
+                            @Content(
+                                    mediaType = "application/json",
+                                    array = @ArraySchema(schema = @Schema(implementation =ProductGetDto.class))))
+            })
+    @PatchMapping("/product")
+    public ResponseEntity<ProductGetDto>findProductById(@RequestParam(value = "ID") String id) {
+        Product product=productRepository.findProductByIdAndIsDeleted(Long.parseLong(id), false)
+                .orElseThrow(()->new EntityNotFoundException("Product with this ID does not exist"));
+        ProductGetDto productGetDto=new ProductGetDto(
+                new CategoryDto(product.getCategory().getCategoryName()),
+                product.getId(),
+                product.getName(),
+                product.getBrand(),
+                product.getPrice()
+        );
+        return ResponseEntity.ok(productGetDto);
     }
 
 }
