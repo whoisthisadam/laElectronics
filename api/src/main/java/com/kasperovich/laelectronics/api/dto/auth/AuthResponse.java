@@ -11,6 +11,9 @@ import lombok.experimental.FieldDefaults;
 public class AuthResponse {
 
     String userNameOrEmail;
+
     String token;
+
+    Long userId;
 
 }

@@ -3,7 +3,9 @@ package com.kasperovich.laelectronics.api.controller;
 import com.kasperovich.laelectronics.api.dto.auth.AuthRequest;
 import com.kasperovich.laelectronics.api.dto.auth.AuthResponse;
 import com.kasperovich.laelectronics.api.security.jwt.TokenUtils;
+import com.kasperovich.laelectronics.repository.UserRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,6 +29,8 @@ public class AuthController {
 
     private final UserDetailsService userProvider;
 
+    private final UserRepository userRepository;
+
     @PostMapping
     public ResponseEntity<AuthResponse> loginUser(@RequestBody AuthRequest request) {
 
@@ -45,6 +49,10 @@ public class AuthController {
                         .builder()
                         .userNameOrEmail(request.getEmailOrLogin())
                         .token(tokenUtils.generateToken(userProvider.loadUserByUsername(request.getEmailOrLogin())))
+                        .userId(
+                                userRepository.findUserByEmailAndIsDeleted(request.getEmailOrLogin(), false)
+                                .orElseThrow(EntityNotFoundException::new).getId()
+                        )
                         .build()
         );
     }
