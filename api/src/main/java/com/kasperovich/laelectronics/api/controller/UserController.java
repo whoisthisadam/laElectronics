@@ -71,7 +71,6 @@ public class UserController {
     })
     @PreAuthorize(value = "hasRole('ADMIN')")
     @GetMapping("/all")
-    @Cacheable
     public ResponseEntity<List<UserGetDto>>findAll(){
         List<User>users=userService.findAll();
         List<UserGetDto>userGetDtos=users
@@ -80,6 +79,7 @@ public class UserController {
                         x->{
                             UserGetDto userGetDto=userMapper.toDto(x);
                             userGetDto.setLogin(x.getCredentials().getLogin());
+                            userGetDto.setRoleName(String.valueOf(x.getRole().getName()));
                             if(x.getUserDiscount()!=null){
                                 userGetDto.setDiscount(discountGetConverter.convert(x.getUserDiscount()));
                             }
