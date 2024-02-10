@@ -8,11 +8,11 @@ import lombok.Data;
 @Data
 public class AuthRequest {
 
-    @Schema(defaultValue = "arinakasperrr", type = "string", description = "User Login OR Email")
+    @Schema(defaultValue = "admintest111", type = "string", description = "User Login")
     @NotBlank
-    private String emailOrLogin;
+    private String login;
 
-    @Schema(defaultValue = "arinak2006", type = "string", description = "User password")
+    @Schema(defaultValue = "admintest111", type = "string", description = "User password")
     @NotBlank
     private String password;
 

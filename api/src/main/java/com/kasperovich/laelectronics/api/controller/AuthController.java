@@ -37,7 +37,7 @@ public class AuthController {
         /*Check login and password*/
         Authentication authenticate = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getEmailOrLogin(),
+                        request.getLogin(),
                         request.getPassword()
                 )
         );
@@ -47,10 +47,10 @@ public class AuthController {
         return ResponseEntity.ok(
                 AuthResponse
                         .builder()
-                        .userNameOrEmail(request.getEmailOrLogin())
-                        .token(tokenUtils.generateToken(userProvider.loadUserByUsername(request.getEmailOrLogin())))
+                        .userNameOrEmail(request.getLogin())
+                        .token(tokenUtils.generateToken(userProvider.loadUserByUsername(request.getLogin())))
                         .userId(
-                                userRepository.findUserByEmailAndIsDeleted(request.getEmailOrLogin(), false)
+                                userRepository.findUserByCredentialsLoginAndIsDeleted(request.getLogin(), false)
                                 .orElseThrow(EntityNotFoundException::new).getId()
                         )
                         .build()
