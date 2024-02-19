@@ -1,4 +1,4 @@
-<h2>Add new product(ONLY FOR ADMIN)</h2>
+<h2>Add new subscription(ONLY FOR ADMIN)</h2>
 <form [formGroup]="form" (ngSubmit)="addProduct()">
   <div>
     <mat-card class="container">
@@ -21,7 +21,7 @@
         </mat-form-field>
 
       </div>
-      <button mat-flat-button color="primary" [disabled]="!form.valid" type="submit">Add product</button>
+      <button mat-flat-button color="primary" [disabled]="!form.valid" type="submit">Add subscription</button>
       <p style="background-color: red" *ngIf="error">{{this.error}}</p>
     </mat-card>
   </div>

@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "payment_details")
+@Table(name = "payments")
 @EqualsAndHashCode(exclude = "order")
 public class Payment {
 

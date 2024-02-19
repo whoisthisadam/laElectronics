@@ -1,7 +1,6 @@
 package com.kasperovich.laelectronics.models;
 
 
-import com.kasperovich.laelectronics.enums.ProductStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -14,20 +13,16 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = "orders")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "products")
-public class Product {
+@Table(name = "subscriptions")
+public class Subscription {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long id;
+    Long id;
 
     @Column(name = "name")
     String name;
-
-    @Column(name = "brand")
-    String brand;
 
     @Column(name = "price")
     Long price;
@@ -42,19 +37,17 @@ public class Product {
     @Column(name = "is_deleted")
     Boolean isDeleted=false;
 
-    @Column(name = "product_status")
-    @Enumerated(EnumType.STRING)
-    ProductStatus status;
+    @Column(name = "is_available")
+    Boolean isAvailable;
 
     @ManyToOne
     @JoinColumn(name = "discount_id")
-    Discount productDiscount;
+    Discount subDiscount;
 
-    @ManyToMany(mappedBy = "products", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    @ManyToMany(mappedBy = "subscriptions", cascade = CascadeType.ALL)
+//    Set<User> users;
+
+    @OneToMany(mappedBy = "subscription")
     Set<Order> orders;
-
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    Category category;
 
 }

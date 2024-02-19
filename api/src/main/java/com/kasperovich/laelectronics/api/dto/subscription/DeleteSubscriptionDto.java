@@ -1,9 +1,7 @@
-package com.kasperovich.laelectronics.api.dto.product;
+package com.kasperovich.laelectronics.api.dto.subscription;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.kasperovich.laelectronics.api.dto.category.CategoryDto;
-import com.kasperovich.laelectronics.enums.ProductStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,16 +17,17 @@ import static lombok.AccessLevel.PRIVATE;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor
-public class ProductCreateDto {
+public class DeleteSubscriptionDto {
 
-    CategoryDto category;
+    public enum DeletedStatus{
+        DELETED,
 
-    String name;
+        UNABLE_TO_DELETE,
 
-    String brand;
+        ERROR
+    }
 
-    Long price;
+    DeletedStatus status;
 
-    ProductStatus status;
-
+    Long id;
 }

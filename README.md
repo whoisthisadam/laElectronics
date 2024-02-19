@@ -5,12 +5,12 @@ Online electronics store application
 Functionality
 -------------------------
 * Registration , Login (JWT)
-* Search for a product
+* Search for a subscription
 * View Profile and Update
 * View Past orders
-* Add a new product
+* Add a new subscription
 * Calculating order cost
-* Personal discounts for users and products
+* Personal discounts for users and subscriptions
 
 Technology
 -------------------------

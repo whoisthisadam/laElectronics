@@ -41,7 +41,7 @@ public class Address {
     @Column(name = "country")
     String country;
 
-    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL)
     @JsonIgnore
     Set<User>users;
 }

@@ -8,16 +8,16 @@ import java.util.List;
 
 import static lombok.AccessLevel.PRIVATE;
 
-;
+
 
 @Data
-@FieldDefaults(level = PRIVATE, makeFinal = false)
+@FieldDefaults(level = PRIVATE)
 public class OrderCreateDto {
 
     Long userId;
 
     PaymentCreateDto payment;
 
-    List<Long>products;
+    List<Long>subscriptions;
 
 }
